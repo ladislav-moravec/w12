@@ -1,0 +1,340 @@
+
+/*
+
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/poppins/v20/pxiEyp8kv8JHgFVrJJbecnFHGPezSQ.woff2) format('woff2');
+    unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+25CC, U+A830-A839, U+A8E0-A8FF;
+  }
+
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 800;
+    src: url(https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLBT5Z11lFd2JQEl8qw.woff2) format('woff2');
+    unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+25CC, U+A830-A839, U+A8E0-A8FF;
+  }
+
+
+@font-face {
+    font-family: Poppins;
+    src: url(https://fonts.gstatic.com/s/poppins/v20/pxiEyp8kv8JHgFVrJJbecnFHGPezSQ.woff2) format('woff2');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url(https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLBT5Z11lFd2JQEl8qw.woff2) format('woff2');
+    font-weight: bold;
+}
+*/
+
+/*
+@font-face {
+    font-family: Poppins;
+    src: url(fonty/Poppins-Regular.ttf);
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url(fonty/Poppins-ExtraBold.ttf);
+    font-weight: bold;
+}
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+*/
+
+body {
+    font: 14px "Poppins";
+    background: white;
+    color: #414042;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 100px 0px 0px 0px;
+    min-height: 100vh;
+    min-width: 600px;
+}
+
+body > header {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    height: 100px;
+    width: 100%;
+    min-width: 870px;
+    background: #050344;
+    color: #ffd700;
+    display: flex;
+    justify-content: space-evenly;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+
+}
+
+#logo {
+    height: 40px;
+    margin: auto 0 auto 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: url('obrazky/logo.png') no-repeat;
+    background-size: 40px 40px;
+}
+
+#logo > * {
+    margin: 0 0 0 50px;
+}
+
+#logo h1 {
+    font-weight: 900;
+    font-size: 1.5em;
+    line-height: 1.2em;
+    color: gold;
+}
+
+#logo h1 span {
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+#logo small {
+    text-transform: uppercase;
+    font-size: 0.85em;
+}
+
+nav ul {
+    margin: 0;
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+nav ul li {
+    padding: 0 25px;
+    margin: 0 5px;
+    font-size: 1em;
+    line-height: 4.3em;
+}
+
+nav ul a {
+    color: gold;
+    padding: 8px 0;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+nav ul a:hover,
+.aktivni a {
+    border-bottom: 2px solid gold;
+}
+
+article {
+    margin: 0 auto;
+    max-width: 960px;
+    padding: 50px 50px 80px 50px;
+    flex: 1;
+    text-align:justify
+
+}
+
+article h1,
+article h2,
+article h3,
+article h4,
+article h5,
+article h6 {
+    padding: 10px 0;
+    color: #050344;
+    font-weight: 900;
+    line-height: 0.4;
+}
+
+article h1 {
+    margin: 0;
+    font-size: 2.3em;
+    font-weight: 900;
+    text-transform: uppercase;
+    width: max-content;
+    border-bottom: 4px solid #050344;
+}
+
+article h2 {
+    font-size: 2em;
+}
+
+article h3 {
+    font-size: 1.5em;
+}
+article h4 {
+    font-size: 1.3em;
+}
+
+article header {
+    height: 80px;
+}
+
+
+article section p {
+    margin-bottom: 1.5em;
+    line-height: 1.8em;
+}
+
+article section a {
+    color: #050344;
+}
+
+footer {
+    box-sizing: border-box;
+    text-align: center;
+    height: 100px;
+    color: gold;
+    background: #050344;
+    padding: 40px 0 0 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    clip-path: polygon(0 30px, 100% 0, 100% 100%, 0 100%);
+}
+
+
+footer a {
+    color: gold;
+    text-decoration: none;
+}
+
+.global_chart{
+	float: right;
+    max-width: 600px;
+    height: auto;
+	padding-left: 20px;
+	/*filter: grayscale(1);*/
+}
+
+.cistic {
+    clear: both;
+}
+
+.centrovany {
+    text-align: center;
+}
+
+.reference-tlacitko {
+    background: #70B73A;
+    color: gold;
+    font-size: 0.9em;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 12px 25px;
+    border-radius: 25px;
+}
+
+.kontakt-tlacitko {
+    background: #050344;
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+
+.kontakt-tlacitko:hover,
+.reference-tlacitko:hover {
+    filter: brightness(115%) contrast(85%);
+    border: 0;
+}
+
+.vlevo {
+    float: left;
+}
+
+#dovednosti td {
+    width: 33%;
+    padding: 10px;
+    vertical-align: top;
+    border: 1px solid gray;
+}
+
+#dovednosti {
+    border-collapse: collapse;
+}
+
+#reference img {
+    border: 1px solid gray;
+    padding: 6px;
+    box-shadow: 3px 3px 6px #999999;
+    margin-right: 6px;
+}
+
+/* Mobile styles */
+@media screen and (max-width: 900px) {
+
+  footer {
+    position: fixed;
+    height: 70px;
+    padding: 25px 0 0 0;
+    clip-path: polygon(0 20px, 100% 0, 100% 100%, 0 100%);
+
+  }
+
+  .hidden-menu {
+    display: none;
+  }
+
+  #logo  {
+    position: absolute;
+    left: 20px;
+    top: 30%;
+  }
+
+  .global_chart{
+    float: none;
+    display: block; /* Zobrazí obrázek jako blokový prvek, aby mohl použít margin: 0 auto; */
+    margin: 0 auto; /* Horizontální centrování obrázku vůči rodičovskému kontejneru */
+  }
+  .tradingview-widget-container{
+    float: none;
+    display: block; /* Zobrazí obrázek jako blokový prvek, aby mohl použít margin: 0 auto; */
+    margin: 0 auto; /* Horizontální centrování obrázku vůči rodičovskému kontejneru */
+  }
+  .reit_picture{
+    max-width: 100%;
+  }
+}
+
+.tradingview-widget-container{
+    float: right;
+    max-width: 600px;
+    height: auto;
+	padding-left: 20px;
+}
+
+article h4 {
+    text-indent: 20px; /* Odsazení prvního řádku */
+    line-height: 1.2em; /* Výška řádku je 1.5krát větší než velikost textu */
+
+}
+article h2 {
+    line-height: 1.2em; /* Výška řádku je 1.5krát větší než velikost textu */
+
+}
+
+li p {
+    margin: 0;
+}
+
+
+li {
+    margin: -0.6em;
+}
+
+
+li {
+    margin-bottom: 1em; /* nebo jiná hodnota podle vašich preferencí */
+}
+
+
