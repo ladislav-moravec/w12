@@ -67,7 +67,7 @@ body > header {
     width: 100%;
     min-width: 870px;
     background: #141e30;
-    color: gold;
+    color: rgb(233, 233, 233);
     display: flex;
     justify-content: space-evenly;
     position: fixed;
@@ -84,7 +84,7 @@ body > header {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: url('obrazky/logo.png') no-repeat;
+    background: url('obrazky/logo_white.png') no-repeat;
     background-size: 40px 40px;
 }
 
@@ -96,7 +96,7 @@ body > header {
     font-weight: 900;
     font-size: 1.5em;
     line-height: 1.2em;
-    color: gold;
+    color: rgb(233, 233, 233);
 }
 
 #logo h1 span {
@@ -125,7 +125,7 @@ nav ul li {
 }
 
 nav ul a {
-    color: gold;
+    color: rgb(233, 233, 233);
     padding: 8px 0;
     text-decoration: none;
     text-transform: uppercase;
@@ -133,7 +133,8 @@ nav ul a {
 
 nav ul a:hover,
 .aktivni a {
-    border-bottom: 2px solid gold;
+    border-bottom: 2px solid;
+    color: rgb(233, 233, 233);
 }
 
 article {
@@ -195,7 +196,7 @@ footer {
     box-sizing: border-box;
     text-align: center;
     height: 100px;
-    color: gold;
+    color: rgb(233, 233, 233);
     background: #141e30;
     padding: 40px 0 0 0;
     bottom: 0;
@@ -206,7 +207,7 @@ footer {
 
 
 footer a {
-    color: gold;
+    color: rgb(233, 233, 233);
     text-decoration: none;
 }
 
@@ -228,7 +229,7 @@ footer a {
 
 .reference-tlacitko {
     background: #70B73A;
-    color: gold;
+    color: rgb(233, 233, 233);
     font-size: 0.9em;
     text-decoration: none;
     text-transform: uppercase;
