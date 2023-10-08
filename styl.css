@@ -66,8 +66,8 @@ body > header {
     height: 100px;
     width: 100%;
     min-width: 870px;
-    background: #050344;
-    color: #ffd700;
+    background: #141e30;
+    color: gold;
     display: flex;
     justify-content: space-evenly;
     position: fixed;
@@ -152,7 +152,7 @@ article h4,
 article h5,
 article h6 {
     padding: 10px 0;
-    color: #050344;
+    color: #141e30;
     font-weight: 900;
     line-height: 0.4;
 }
@@ -163,7 +163,7 @@ article h1 {
     font-weight: 900;
     text-transform: uppercase;
     width: max-content;
-    border-bottom: 4px solid #050344;
+    border-bottom: 4px solid #141e30;
 }
 
 article h2 {
@@ -188,7 +188,7 @@ article section p {
 }
 
 article section a {
-    color: #050344;
+    color: #141e30;
 }
 
 footer {
@@ -196,7 +196,7 @@ footer {
     text-align: center;
     height: 100px;
     color: gold;
-    background: #050344;
+    background: #141e30;
     padding: 40px 0 0 0;
     bottom: 0;
     left: 0;
@@ -237,7 +237,7 @@ footer a {
 }
 
 .kontakt-tlacitko {
-    background: #050344;
+    background: #141e30;
     padding: 10px 20px;
     border-radius: 20px;
 }
