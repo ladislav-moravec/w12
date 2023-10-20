@@ -308,7 +308,6 @@ footer a {
 }
 
 .tradingview-widget-container{
-    float: right;
     max-width: 600px;
     height: auto;
 	padding-left: 20px;
@@ -321,7 +320,10 @@ article h4 {
 }
 article h2 {
     line-height: 1.2em; /* Výška řádku je 1.5krát větší než velikost textu */
-
+}
+article h3 {
+    line-height: 1.2em; /* Výška řádku je 1.5krát větší než velikost textu */
+    text-align: left;
 }
 
 li p {
