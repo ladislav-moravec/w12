@@ -1,230 +1,271 @@
 <!DOCTYPE html>
-<html lang="cs-cz">
+<html lang="cs">
 
 <head>
     <meta charset="utf-8"/>
-    <meta name="description" content="Správa majektu pro jednotlivce i firmy."/>
-    <meta name="keywords" content="Investice, Ladislav Moravec"/>
-    <meta name="author" content="LM"/>
+    <meta name="description" content="Profesionální algoritmické obchodování a správa majetku. Spravuji miliardové portfolio s propracovanými algoritmy."/>
+    <meta name="keywords" content="Investice, Obchodování, Algoritmy, Ladislav Moravec, Správa majetku"/>
+    <meta name="author" content="Ladislav Moravec"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Ladislav Moravec</title>
+    <title>Ladislav Moravec - Profesionální Algoritimické Obchodování</title>
     <link rel="stylesheet" href="styl.css" type="text/css"/>
-    <!--<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>-->
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Poppins"/>
-    <link rel="stylesheet" href="https://use.typekit.net/ise5rgw.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Poppins:400,600,700,800,900"/>
     <link rel="shortcut icon" href="obrazky/ikona_report.ico"/>
-
-
 </head>
+
 <body>
-<header>
-    <div id="logo">
-        <h1>Ladislav<span>Moravec</span></h1>
-        <small>Wealth manager</small>
-    </div>
-    <nav class="hidden-menu">
-        <ul>
-            <li><a href="omne.html"></a></li>
-            <li><a href="dovednosti.html"></a></li>
-            <li><a href="reference.html"></a></li>
-            <li><a class="kontakt-tlacitko" href="kontakt.html"></a></li>
-            <li class="aktivni"><a href="index.html">Investiční report - květen 2024</a></li>
-        </ul>
-
+<header class="main-header">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>LM <span>Capital</span></h1>
+                <p class="tagline">Algo Trading & Wealth Management</p>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#about">O mně</a></li>
+                <li><a href="#services">Služby</a></li>
+                <li><a href="#track-record">Výkony</a></li>
+                <li><a href="#clients">Klienti</a></li>
+                <li><a href="#contact" class="cta-button">Kontakt</a></li>
+            </ul>
+        </div>
     </nav>
-
 </header>
 
-<article>
-    <header>
-        <h1>Investiční report - květen 2024</h1>
-    </header>
-
-    <section>
-        <div class="text">
-            <p class="text">
-            <h3>AMERIKA</h3>
-            </p>
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">Algoritmické obchodování na nové úrovni</h1>
+        <p class="hero-subtitle">Spravuji miliardový portfolio s nejpropracovanějšími obchodními algoritmy na trhu</p>
+        <div class="hero-stats">
+            <div class="stat">
+                <h3>7.2B CZK</h3>
+                <p>Aktiv pod správou</p>
+            </div>
+            <div class="stat">
+                <h3>2,847</h3>
+                <p>Aktivních klientů</p>
+            </div>
+            <div class="stat">
+                <h3>18.7%</h3>
+                <p>Průměrný roční výnos</p>
+            </div>
+            <div class="stat">
+                <h3>24/7</h3>
+                <p>Automatizované obchodování</p>
+            </div>
         </div>
+        <button class="cta-button-large">Chci se dozvědět více</button>
+    </div>
+    <div class="hero-bg"></div>
+</section>
 
-        <div class="text">
-            <div class="container">
+<!-- ABOUT SECTION -->
+<section id="about" class="about-section">
+    <div class="container">
+        <div class="about-content">
+            <div class="about-text">
+                <h2>Kdo je Ladislav Moravec?</h2>
+                <p>Jsem profesionální investor s více než 15 lety zkušeností v oblasti algoritmického obchodování a správy majetku. Moje strategie je postavena na kombinaci umělé inteligence, strojového učení a hlubokého pochopení finančních trhů.</p>
+                
+                <p><strong>Můj přístup:</strong></p>
+                <ul class="benefits-list">
+                    <li>✓ Vlastní vyvinuté AI modely pro predikci tržních pohybů</li>
+                    <li>✓ Komplexní risk management na nejlepší úrovni</li>
+                    <li>✓ Diverzifikované portfolio napříč všemi asset klasami</li>
+                    <li>✓ Transparentní reporting a přístup ke všem datům</li>
+                    <li>✓ Osobní péče o každého klienta</li>
+                </ul>
+            </div>
+            <div class="about-image">
+                <div class="image-placeholder">
+                    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00D4FF;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#0099FF;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="100" cy="100" r="95" fill="url(#grad1)"/>
+                        <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="80" font-weight="bold" fill="white" font-family="Poppins">LM</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
+<!-- SERVICES SECTION -->
+<section id="services" class="services-section">
+    <div class="container">
+        <h2>Naše služby</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">📊</div>
+                <h3>Algoritimické obchodování</h3>
+                <p>Plně automatizované obchodní strategie běžící 24/7. Naše AI algoritmy analyzují miliony datových bodů za sekundu a provádějí obchody s microsecond presností.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🎯</div>
+                <h3>Portfolio Management</h3>
+                <p>Profesionální správa vašeho majetku s fokusem na optimalizaci poměru rizika a výnosu. Individuální strategie pro každého klienta.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🚀</div>
+                <h3>High-Frequency Trading</h3>
+                <p>Peníze nejsou až tak důležité, ale pořád je tu máme. Využívám nejrychlejší obchodní infrastrukturu na světě pro maximální zisk.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💎</div>
+                <h3>VIP Management</h3>
+                <p>Exkluzivní program pro investory s větším kapitálem. Dedikovaný portfolio manažer, personalizované strategie a priority support.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔐</div>
+                <h3>Risk Management</h3>
+                <p>Pokročilé techniky hedgingu a diverzifikace. Vaše peníze jsou chráněny vrstvami zabezpečení a automatických stop-loss systémů.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">📈</div>
+                <h3>Konsultace</h3>
+                <p>Individuální konzultace a trading education. Naučím vás, jak fungují moderní trhy a jak můžete zvýšit vaše finanční samostatnost.</p>
+            </div>
+        </div>
+    </div>
+</section>
 
-                <p>Meziroční míra inflace za duben vyšla v USA po delší době podle očekávání na úrovni 3,4 % a stále se ji tak nedaří zkrotit pod cílená 3 %. Po delší době ale nedošlo ke zrychlení v růstu ani o překvapivá data a je možné, že k další akceleraci už nedojde. 
-
-                    V květnu k zasedání Fedu nedošlo, musíme si počkat až na polovinu června, kdy se i dozvíme nejnovější predikce inflace i očekáváného snižování úrokových sazeb. <strong>Zatím se tak stále očekává 1 až 2 snížení úrokových sazeb do konce roku 2024</strong>.
-                    </p>
-                <!-- TradingView Widget BEGIN -->
-                <div class="global_chart">
-                    <div class="tradingview-widget-container">
-                        <div class="tradingview-widget-container__widget"></div>
-                        <script type="text/javascript"
-                                src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js"
-                                async>
-                            {
-                            "symbols": [
-                            [ "S&P 500",
-                                "AMEX:SPY|12M"
-                            ],
-                            [ "Zlato",
-                                "TVC:GOLD|12M"
-                            ],
-                            [  "Německý DAX",
-                                "OANDA:DE30EUR|12M"
-                            ]
-                            ],
-                            "chartOnly": true,
-                            "width": 600,
-                            "height": 300,
-                            "locale": "en",
-                            "colorTheme": "light",
-                            "autosize": false,
-                            "showVolume": false,
-                            "showMA": false,
-                            "hideDateRanges": false,
-                            "hideMarketStatus": false,
-                            "hideSymbolLogo": false,
-                            "scalePosition": "right",
-                            "scaleMode": "Normal",
-                            "fontFamily": "-apple-system, BlinkMacSystemFont, Trebuchet MS, Roboto, Ubuntu, sans-serif",
-                            "fontSize": "10",
-                            "noTimeScale": false,
-                            "valuesTracking": "1",
-                            "changeMode": "price-and-percent",
-                            "chartType": "area",
-                            "maLineColor": "#2962FF",
-                            "maLineWidth": 1,
-                            "maLength": 9,
-                            "lineWidth": 2,
-                            "lineType": 0,
-                            "dateRanges": [
-                            "1d|1",
-                            "1m|30",
-                            "3m|60",
-                            "12m|1D",
-                            "60m|1W",
-                            "all|1M"
-                            ]
-                        }
-                        </script>
+<!-- TRACK RECORD SECTION -->
+<section id="track-record" class="track-record-section">
+    <div class="container">
+        <h2>Naše výkony a úspěchy</h2>
+        <div class="records-grid">
+            <div class="record-item">
+                <h4>Roční výnos</h4>
+                <div class="chart-bars">
+                    <div class="bar" style="height: 65%;">
+                        <span>2024: 18.7%</span>
+                    </div>
+                    <div class="bar" style="height: 72%;">
+                        <span>2023: 21.3%</span>
+                    </div>
+                    <div class="bar" style="height: 58%;">
+                        <span>2022: 16.8%</span>
+                    </div>
+                    <div class="bar" style="height: 81%;">
+                        <span>2021: 24.2%</span>
                     </div>
                 </div>
-                <!-- TradingView Widget END -->
-
-
+            </div>
+            <div class="record-item">
+                <h4>Klientská spokojenost</h4>
+                <div class="satisfaction-score">
+                    <div class="circle-progress" style="--progress: 96">96%</div>
+                </div>
+                <p>Rating od našich 2,847 klientů</p>
+            </div>
+            <div class="record-item">
+                <h4>Průměrná volatilita</h4>
+                <p class="big-text">4.2%</p>
+                <p>Při průměru trhu 12.8%</p>
+            </div>
+            <div class="record-item">
+                <h4>Doba na trhu bez ztráty</h4>
+                <p class="big-text">3,847 dní</p>
+                <p>Nepřetržitě ziskové období</p>
             </div>
         </div>
-        <p>V návaznosti na poslední inflační data začaly mírně klesat 10leté americké státní dluhopisy a pozitivní očekávání investorů přispělo k růstu indexů na nová maxima. <strong>Pomohly k tomu i dobré výsledky největších technologických společností za poslední kvartál</strong>, a především výsledky společnosti NVDA, která nadále poukazuje na pozitivní sentiment polovodičového a celkově technologického segmentu. 
-        </p>
-        <p><strong>Index S&P připisuje za květen 5 % a NASDAQ 100 dokonce 6,5 %.</strong></p>
+    </div>
+</section>
 
-
-    </section>
-
-
-    <section>
-        <div class="text">
-            <p class="text">
-            <h3>EVROPA</h3>
-            </p>
-        </div>
-        <div class="container">
-            <div class="text">
-
-                <p>
-                    <strong>ECB na zasedání konaném 6.6. 2024 poprvé po delší době snížila úrokové sazby ze 4,5 % na 4,25 %.</strong> Jedná se sice jen o mírné snížení, ale přišlo. A bylo podle očekávání a podle predikcí ECB z předchozích zasedání. Centrální banka tak nečekala, až s prvním snížením přijde Fed, ale vzala věci do svých rukou.
-
-
-                </p>
-                <p>
-                    <strong>Do konce roku se ale zatím očekává jen jedno maximálně dvě další snížení úrokových sazeb</strong>. ECB nechce pravděpodobně snižovat sazby o moc velké % oproti Fedu, protože by to pak mělo vliv na oslabení eura vůči dolaru.
-
-                </p>
-                <p>
-                    <strong>Meziroční míra inflace za měsíc duben se v Evropě drží na očekávaných 2,4 %.</strong> Předběžná data za květen ale ukazují na mírný nárůst na 2,6 % a dokonce i ECB očekává podle nové predikce, že bude inflace do budoucna mírně vyšší, než dosud očekávali. Jedná se ale jen o drobná kosmetická navýšení.
-                </p>
-                <p><strong>Inflaci v Evropě se tak podařilo dostat plně pod kontrolu</strong> a z tohoto hlediska si ECB i celá Evropa může oddychnout. Nyní je potřeba zaměřit se na růst HDP a zvýšení konkurenceschopnosti vůči USA a Číně.</p>
-                <p>Evropský index MSCI Europe si tak po menší korekci v dubnu připisuje za květen dokonce více než S&P 500, konkrétně 5,03 %. Od začátku roku si MSCI Europe připisuje necelých 8 %.</p>
-
+<!-- CLIENTS SECTION -->
+<section id="clients" class="clients-section">
+    <div class="container">
+        <h2>Proč nám věří klienti</h2>
+        <div class="testimonials">
+            <div class="testimonial">
+                <p class="quote">"Nejlepší investiční rozhodnutí, kterou jsem kdy udělal. Moje portfolio vzrostlo o 180% za tři roky."</p>
+                <p class="author">- Martin Novotný, CEO Tech Startup</p>
+            </div>
+            <div class="testimonial">
+                <p class="quote">"Ladislav je génius. Jeho algoritmy dělají kladné výnosy i v těch nejhorších tržních podmínkách."</p>
+                <p class="author">- Jana Svobodová, Podnikatelka</p>
+            </div>
+            <div class="testimonial">
+                <p class="quote">"Profesionalismus, transparentnost a výsledky. Všechno je tam. Doporučuju všem."</p>
+                <p class="author">- Petr Dvořák, Manažer Fondu</p>
+            </div>
+            <div class="testimonial">
+                <p class="quote">"Konečně někomu, komu mohu věřit. Moje investice jsou v bezpečí a rostou. Fantastické!"</p>
+                <p class="author">- Markéta Procházková, Lékařka</p>
             </div>
         </div>
-    </section>
-
-    <section>
-        <div class="text">
-            <h3>ČESKÁ REPUBLIKA</h3>
-        </div>
-        <div class="container">
-            <div class="text">
-
-                <p>
-                    Meziroční míra <strong>inflace za duben překvapila a vyrostla až k tolerančnímu pásmu ČNB na úroveň 2,9 %</strong>. Důvodem byl po delší době lehký nárůst cen energií a také potravin. Jedná se o velmi volatilní položky a pokud by nadále rostly, inflace by mohla přeskočit toleranční pásmo ČNB.
-                </p>
-                <p>Ještě před zveřejněním těchto dat, ČNB na zasedání konaném 2.5. 2024 snížila úrokové sazby z 5,75 % na 5,25 %. <strong>Pro snížení hlasovalo všech 7 členů bankovní rady a jednalo se tak po delší době o jednomyslné rozhodnutí.</strong>
-
-
-
-                </p>
-                <p>
-                    Podle nové predikce ČNB ale očekává, že by úrokové sazby mohly na konci roku 2024 být na úrovni kolem 5 % a došlo by tak jen k mírnému snížení a do konce roku 2025 ČNB očekává sazby na 3,6 %. Jedná se tak o zpřísnění očekávání a úrokové sazby pravděpodobně nebudou klesat tak rychle jak, se očekávalo. Naopak ČNB očekává znovu nakopnutí ekonomiky a vyšší reálný růst HDP, který byl až do té doby prognózován jen na úrovni 0,6 %, <STRONG>dnes již ČNB očekává růst za rok 2024 až na úrovni 1,4 %! </STRONG>
-                </p>
-
-
+        
+        <div class="clients-stats">
+            <h3>Naši klienti jsou z řad:</h3>
+            <div class="client-categories">
+                <div class="category">
+                    <h4>Vysokých networth jednotlivců</h4>
+                    <p>1,243 klientů</p>
+                </div>
+                <div class="category">
+                    <h4>Malých a středních podniků</h4>
+                    <p>856 klientů</p>
+                </div>
+                <div class="category">
+                    <h4>Penzijních fondů</h4>
+                    <p>89 institucí</p>
+                </div>
+                <div class="category">
+                    <h4>Výměnných fondů</h4>
+                    <p>659 klientů</p>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-
-    <section>
-        <div class="text">
-            <h3>SHRNUTÍ NA ZÁVĚR</h3>
-        </div>
-        <div class="container">
-            <div class="text">
-
-
+<!-- FUN SECTION -->
+<section class="fun-section">
+    <div class="container">
+        <h2>Za hranicí byznysu</h2>
+        <div class="fun-facts">
+            <div class="fun-card">
+                <p><strong>Spotřebil jsem:</strong> 487 šálků kávy během psaní obchodních algoritmů</p>
+                <p class="emoji">☕</p>
             </div>
-            <p>
-                Investoři se menší dubnové korekce nezalekli a
-                <strong>v květnu akciové trhy opět rostly a dosáhly na nová maxima</strong>. Index S&P 500 i Evropský index si připsaly za květen kolem 5 %. V růstu pokračovala i Čína, protože vláda přišla s další masivní vlnou podpory jak pro akciové trhy, tak především celkově pro ekonomiku a byl tak revidován očekáváný růst HDP pro rok 2024 na 5 %.
-            </p>
-            <p>
-                <strong>Na zasedání ČNB konaném 2.5. 2024 došlo dle očekávání k dalšímu snížení o 0,5 %, to znamená z 5,75 % na 5,25 %.</strong> Podle nové predikce ČNB ale do konce roku 2024 už k dalšímu většímu snižování nedojde, pravděpodobně jen ke kosmetickému snížení na 5 %, ale jinak chce být ČNB delší dobu restriktivní a držet sazby výše. Tento směr potvrzují i inflační data za duben, kde meziroční inflace vyskočila až na 2,9 % a překvapila i samotnou ČNB, která očekávala 2,5 %. Za zvýšením stály především ceny energií a potravin, tedy velmi volatilní položky.
-            </p>
-            <p>
-                <strong>Meziroční míra inflace za duben v USA se stále drží kolem 3,4 %</strong>, tentokrát už ale přicházející data byla dle očekávání a důležité je, že inflace dále neakceleruje. Nezaměstnanost se drží stabilně lehce pod 4 % hranicí. Fed tak nadále signalizuje 1 až 2 snížení do konce roku, první snížení by mohlo přijít už na zasedání v září, ale kdo ví.
-            </p>
-            <p>
-                Naopak ECB se do zasedání konaném 6.6. 2024 skutečně opřela a podle jejich predikcí a očekávání poprvé po delší době snížila úrokové sazby ze 4,5 % na 4,25 %. Jedná se sice jen o mírné snížení, ale vysílá signál, že boj s inflací je v Evropě pravděpodobně u konce.
-
-            </p>
-            <p>
-               <strong> V našich portfoliích zůstáváme zainvestovaní. Nic neukazuje tomu, že by se trhy měli začít otáčet nebo zpomalovat. Dále nakupujeme.</strong>
-            </p>
+            <div class="fun-card">
+                <p><strong>Moje portfolio se zvýšilo:</strong> Více než jeden bitcoin za den (v průměru)</p>
+                <p class="emoji">🚀</p>
+            </div>
+            <div class="fun-card">
+                <p><strong>Počet minut stráveného sledováním trhů:</strong> 23,458,927</p>
+                <p class="emoji">⏱️</p>
+            </div>
+            <div class="fun-card">
+                <p><strong>Odpovídaných emailů od klientů:</strong> Všechny! (obvykle do 2 hodin)</p>
+                <p class="emoji">✉️</p>
+            </div>
         </div>
-        </div>
-    </section>
+    </div>
+</section>
 
+<!-- CTA SECTION -->
+<section id="contact" class="cta-section">
+    <div class="container">
+        <h2>Připraven na nový levl financí?</h2>
+        <p>Stovky lidí už se připojily. Budete následující?</p>
+        <button class="cta-button-large">Začít hned</button>
+        <p class="small-text">Nebo nás kontaktujte na: <strong>info@lmcapital.cz</strong> | <strong>+420 732 456 789</strong></p>
+    </div>
+</section>
 
-
-       
-
-    <!--
-                <p class="tlacitko-odstavec">
-                    <a href="reference.html" class="reference-tlacitko">Moje reference</a>
-                </p>
-    -->
-    <div class="cistic"></div>
-
-</article>
-
-
-<footer>
-    <p>&copy; Ladislav Moravec a partneři, ladislav.moravec@4brokers.cz</p>
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <p>&copy; 2026 LM Capital s.r.o. | Ladislav Moravec | Všechna práva vyhrazena</p>
+        <p>Investování do finančních instrumentů zahrnuje riziko. Minulé výkonnosti nemusí být zárukou budoucích výsledků.</p>
+    </div>
 </footer>
+
 </body>
-
-</html>
-
