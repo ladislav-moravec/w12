@@ -1,0 +1,11 @@
+{
+  "name": "lm-capital",
+  "version": "1.0.0",
+  "description": "LM Capital - Algo Trading & Wealth Management",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "build": "echo 'Static site - no build needed'"
+  }
+}
