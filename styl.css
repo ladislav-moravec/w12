@@ -425,19 +425,19 @@ body {
 }
 
 .bar:nth-child(1) span {
-    bottom: -50px;
+    bottom: -30px;
 }
 
 .bar:nth-child(2) span {
-    bottom: -20px;
+    bottom: -15px;
 }
 
 .bar:nth-child(3) span {
-    bottom: -50px;
+    bottom: -30px;
 }
 
 .bar:nth-child(4) span {
-    bottom: -20px;
+    bottom: -15px;
 }
 
 .satisfaction-score {
