@@ -8,7 +8,7 @@
     <meta name="author" content="Ladislav Moravec"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Ladislav Moravec - Profesionální Algoritimické Obchodování</title>
+    <title>Ing. Ladislav Moravec - Profesionální programátorské investování</title>
     <link rel="stylesheet" href="styl.css" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Poppins:400,600,700,800,900"/>
     <link rel="shortcut icon" href="obrazky/ikona_report.ico"/>
@@ -41,15 +41,15 @@
 <!-- HERO SECTION -->
 <section class="hero">
     <div class="hero-content">
-        <h1 class="hero-title">Algoritmické obchodování na nové úrovni</h1>
-        <p class="hero-subtitle">Spravuji miliardový portfolio s nejpropracovanějšími obchodními algoritmy na trhu</p>
+        <h1 class="hero-title">Algoritmické investování na nové úrovni</h1>
+        <p class="hero-subtitle">Spravuji klientská portfolia s využítím vlastních analytických programů</p>
         <div class="hero-stats">
             <div class="stat">
-                <h3>7.2B CZK</h3>
+                <h3>243.2M CZK</h3>
                 <p>Aktiv pod správou</p>
             </div>
             <div class="stat">
-                <h3>2,847</h3>
+                <h3>347</h3>
                 <p>Aktivních klientů</p>
             </div>
             <div class="stat">
@@ -58,10 +58,11 @@
             </div>
             <div class="stat">
                 <h3>24/7</h3>
-                <p>Automatizované obchodování</p>
+                <p>Neustálé vyhodnocování trhu</p>
             </div>
         </div>
-        <button class="cta-button-large">Chci se dozvědět více</button>
+        <button id="hero-motto-btn" class="cta-button-large">Chci se dozvědět více</button>
+        <div id="hero-motto-text" class="hero-motto-text" hidden>Peníze pro Vás, rozumně a bez práce. Od 0 Kč nebo od milionů</div>
     </div>
     <div class="hero-bg"></div>
 </section>
@@ -71,8 +72,8 @@
     <div class="container">
         <div class="about-content">
             <div class="about-text">
-                <h2>Kdo je Ladislav Moravec?</h2>
-                <p>Jsem profesionální investor s více než 15 lety zkušeností v oblasti algoritmického obchodování a správy majetku. Moje strategie je postavena na kombinaci umělé inteligence, strojového učení a hlubokého pochopení finančních trhů.</p>
+                <h2>Kdo je Ing. Ladislav Moravec?</h2>
+                <p>Jsem profesionální investor a programátor s více než 15 lety zkušeností v oblasti algoritmického obchodování a správy majetku. Využívám vlastní vyvinuté nástroje pro analýzu trhu, které jsou postaveny na kombinaci umělé inteligence, strojového učení a hlubokého pochopení finančních trhů.</p>
                 
                 <p><strong>Můj přístup:</strong></p>
                 <ul class="benefits-list">
@@ -82,6 +83,7 @@
                     <li>✓ Transparentní reporting a přístup ke všem datům</li>
                     <li>✓ Osobní péče o každého klienta</li>
                 </ul>
+                <p class="about-motto"><strong>Motto:</strong> Peníze pro Vás, rozumně a bez práce. <br>Od 0 Kč nebo od milionů</p>
             </div>
             <div class="about-image">
                 <div class="image-placeholder">
@@ -95,6 +97,28 @@
                         <circle cx="100" cy="100" r="95" fill="url(#grad1)"/>
                         <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="80" font-weight="bold" fill="white" font-family="Poppins">LM</text>
                     </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clients-stats">
+            <h3>Naši klienti jsou z řad:</h3>
+            <div class="client-categories">
+                <div class="category">
+                    <h4>Vysokých networth jednotlivců</h4>
+                    <p>319 klientů</p>
+                </div>
+                <div class="category">
+                    <h4>Malých a středních podniků</h4>
+                    <p>6 podniků</p>
+                </div>
+                <div class="category">
+                    <h4>Drobných i středních podniků</h4>
+                    <p>89 klientů</p>
+                </div>
+                <div class="category">
+                    <h4>Maminek od běžných rodin</h4>
+                    <p>45 klientů</p>
                 </div>
             </div>
         </div>
@@ -118,8 +142,8 @@
             </div>
             <div class="service-card">
                 <div class="service-icon">🚀</div>
-                <h3>High-Frequency Trading</h3>
-                <p>Peníze nejsou až tak důležité, ale pořád je tu máme. Využívám nejrychlejší obchodní infrastrukturu na světě pro maximální zisk.</p>
+                <h3>Hedge management</h3>
+                <p>Peníze nejsou až tak důležité, ale pořád je tu máme. K udržení stabilitы portfolia využívám pokročilé techniky hedgingu a diverzifikace.</p>
             </div>
             <div class="service-card">
                 <div class="service-icon">💎</div>
@@ -133,7 +157,7 @@
             </div>
             <div class="service-card">
                 <div class="service-icon">📈</div>
-                <h3>Konsultace</h3>
+                <h3>Konzultace</h3>
                 <p>Individuální konzultace a trading education. Naučím vás, jak fungují moderní trhy a jak můžete zvýšit vaše finanční samostatnost.</p>
             </div>
         </div>
@@ -147,18 +171,26 @@
         <div class="records-grid">
             <div class="record-item">
                 <h4>Roční výnos</h4>
-                <div class="chart-bars">
-                    <div class="bar" style="height: 65%;">
-                        <span>2024: 18.7%</span>
+                <div class="chart-container">
+                    <div class="chart-bars">
+                        <div class="bar" style="height: 65%;">
+                            <span class="percent">18.7%</span>
+                        </div>
+                        <div class="bar" style="height: 72%;">
+                            <span class="percent">21.3%</span>
+                        </div>
+                        <div class="bar" style="height: 58%;">
+                            <span class="percent">16.8%</span>
+                        </div>
+                        <div class="bar" style="height: 81%;">
+                            <span class="percent">24.2%</span>
+                        </div>
                     </div>
-                    <div class="bar" style="height: 72%;">
-                        <span>2023: 21.3%</span>
-                    </div>
-                    <div class="bar" style="height: 58%;">
-                        <span>2022: 16.8%</span>
-                    </div>
-                    <div class="bar" style="height: 81%;">
-                        <span>2021: 24.2%</span>
+                    <div class="years">
+                        <span>2024</span>
+                        <span>2023</span>
+                        <span>2022</span>
+                        <span>2021</span>
                     </div>
                 </div>
             </div>
@@ -175,56 +207,9 @@
                 <p>Při průměru trhu 12.8%</p>
             </div>
             <div class="record-item">
-                <h4>Doba na trhu bez ztráty</h4>
+                <h4>Doba kontinuelní analýzy trhu</h4>
                 <p class="big-text">3,847 dní</p>
-                <p>Nepřetržitě ziskové období</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- CLIENTS SECTION -->
-<section id="clients" class="clients-section">
-    <div class="container">
-        <h2>Proč nám věří klienti</h2>
-        <div class="testimonials">
-            <div class="testimonial">
-                <p class="quote">"Nejlepší investiční rozhodnutí, kterou jsem kdy udělal. Moje portfolio vzrostlo o 180% za tři roky."</p>
-                <p class="author">- Martin Novotný, CEO Tech Startup</p>
-            </div>
-            <div class="testimonial">
-                <p class="quote">"Ladislav je génius. Jeho algoritmy dělají kladné výnosy i v těch nejhorších tržních podmínkách."</p>
-                <p class="author">- Jana Svobodová, Podnikatelka</p>
-            </div>
-            <div class="testimonial">
-                <p class="quote">"Profesionalismus, transparentnost a výsledky. Všechno je tam. Doporučuju všem."</p>
-                <p class="author">- Petr Dvořák, Manažer Fondu</p>
-            </div>
-            <div class="testimonial">
-                <p class="quote">"Konečně někomu, komu mohu věřit. Moje investice jsou v bezpečí a rostou. Fantastické!"</p>
-                <p class="author">- Markéta Procházková, Lékařka</p>
-            </div>
-        </div>
-        
-        <div class="clients-stats">
-            <h3>Naši klienti jsou z řad:</h3>
-            <div class="client-categories">
-                <div class="category">
-                    <h4>Vysokých networth jednotlivců</h4>
-                    <p>1,243 klientů</p>
-                </div>
-                <div class="category">
-                    <h4>Malých a středních podniků</h4>
-                    <p>856 klientů</p>
-                </div>
-                <div class="category">
-                    <h4>Penzijních fondů</h4>
-                    <p>89 institucí</p>
-                </div>
-                <div class="category">
-                    <h4>Výměnných fondů</h4>
-                    <p>659 klientů</p>
-                </div>
+                <p>Nepřetržitě běžící systémy</p>
             </div>
         </div>
     </div>
@@ -260,15 +245,49 @@
     <div class="container">
         <h2>Připraven na nový levl financí?</h2>
         <p>Stovky lidí už se připojily. Budete následující?</p>
-        <button class="cta-button-large">Začít hned</button>
-        <p class="small-text">Nebo nás kontaktujte na: <strong>ladislav.moravec@4brokers.cz</strong> | <strong>+420 728 530 668</strong></p>
+        <button id="cta-show-contact" class="cta-button-large">Neklikat</button>
+        <div id="cta-contact-popup" class="cta-contact-popup" aria-live="polite" role="status" hidden>
+            <ul class="cta-contact-list">
+                <li>Postarám se o vytvoření majetku od 0 Kč. Začtěnte klidně s málem, s pár tisíci.</li>
+                <li>Předejte velký majetek do profesionální správy. Podle Vašich možností začneme tvořit velké majetky společně.</li>
+                <li>Nechte se vést bez práce. Tvořme velké majetky společně.</li>
+                <li>Neváhejte se se mnou spojit. Budu se těšit.</li>
+            </ul>
+            <p class="cta-contact-subtext">Jméno: Ing. Ladislav Moravec | Telefon: +420 728 530 668 | Email: ladislav.moravec@4brokers.cz</p>
+        </div>
+        <p class="small-text">Budu rád, když mě kontaktujete na: <strong>ladislav.moravec@4brokers.cz</strong> | <strong>+420 728 530 668</strong></p>
     </div>
+</section>
+
+<!-- CLIENTS SECTION -->
+<section id="clients" class="clients-section">
+    <div class="container">
+        <h2>Proč nám věří klienti</h2>
+        <div class="testimonials">
+            <div class="testimonial">
+                <p class="quote">"Nejlepší investiční rozhodnutí, kterou jsem kdy udělal. Moje portfolio vzrostlo o 180% za tři roky."</p>
+                <p class="author">- Martin Novotný, CEO Tech Startup</p>
+            </div>
+            <div class="testimonial">
+                <p class="quote">"Ladislav je génius. Jeho algoritmy dělají kladné výnosy i v těch nejhorších tržních podmínkách."</p>
+                <p class="author">- Jana Svobodová, Podnikatelka</p>
+            </div>
+            <div class="testimonial">
+                <p class="quote">"Profesionalismus, transparentnost a výsledky. Všechno je tam. Doporučuju všem."</p>
+                <p class="author">- Petr Dvořák, Manažer Fondu</p>
+            </div>
+            <div class="testimonial">
+                <p class="quote">"Konečně někomu, komu mohu věřit. Moje investice jsou v bezpečí a rostou. Fantastické!"</p>
+                <p class="author">- Markéta Procházková, Lékařka</p>
+            </div>
+        </div>
+        
 </section>
 
 <!-- FOOTER -->
 <footer class="footer">
     <div class="container">
-        <p>&copy; 2026 lmvest s.r.o. | Ladislav Moravec | Všechna práva vyhrazena</p>
+        <p>&copy; 2026 lmvest s.r.o. | Ing. Ladislav Moravec | Všechna práva vyhrazena</p>
         <p>Investování do finančních instrumentů zahrnuje riziko. Minulé výkonnosti nemusí být zárukou budoucích výsledků.</p>
     </div>
 </footer>
@@ -280,6 +299,45 @@
     burger.addEventListener('click', () => {
         navMenu.classList.toggle('open');
         burger.classList.toggle('open');
+    });
+
+    const ctaButton = document.getElementById('cta-show-contact');
+    const ctaPopup = document.getElementById('cta-contact-popup');
+
+    ctaButton.addEventListener('click', () => {
+        if (ctaPopup.hasAttribute('hidden')) {
+            ctaPopup.removeAttribute('hidden');
+            ctaPopup.classList.add('visible');
+            ctaButton.textContent = 'Skrýt toto tajemství';
+        } else {
+            ctaPopup.setAttribute('hidden', '');
+            ctaPopup.classList.remove('visible');
+            ctaButton.textContent = 'Začít hned';
+        }
+    });
+
+    const heroMottoBtn = document.getElementById('hero-motto-btn');
+    const heroMottoText = document.getElementById('hero-motto-text');
+    let mottoShown = false;
+
+    heroMottoBtn.addEventListener('click', () => {
+        if (!mottoShown) {
+            heroMottoText.removeAttribute('hidden');
+            heroMottoText.classList.add('show');
+            heroMottoBtn.textContent = 'Skrýt';
+            mottoShown = true;
+
+            setTimeout(() => {
+                heroMottoText.textContent = 'Peníze pro Vás, rozumně a bez práce. Od 0 Kč nebo od milionů.';
+            }, 0);
+        } else {
+            heroMottoText.classList.remove('show');
+            setTimeout(() => {
+                heroMottoText.setAttribute('hidden', '');
+                heroMottoBtn.textContent = 'Chci se dozvědět více';
+                mottoShown = false;
+            }, 300);
+        }
     });
 </script>
 
