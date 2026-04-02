@@ -20,7 +20,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: #FFFFFF;
+    background: linear-gradient(135deg, #08111C, #0A1220);
     color: var(--text);
     line-height: 1.6;
     overflow-x: hidden;
@@ -629,7 +629,7 @@ body {
 
 /* ========== FOOTER ========== */
 .footer {
-    background: var(--secondary);
+    background: #0b1020;
     color: #E0E6ED;
     padding: 2rem 0;
     text-align: center;
@@ -769,19 +769,16 @@ article section a {
 footer {
     box-sizing: border-box;
     text-align: center;
-    height: 100px;
-    color: rgb(233, 233, 233);
-    background: #141e30;
-    padding: 40px 0 0 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    clip-path: polygon(0 30px, 100% 0, 100% 100%, 0 100%);
+    color: #E0E6ED;
+    background: #000000;
+    padding: 2rem 0;
+    margin-top: 3rem;
+    clip-path: none;
+    height: auto;
 }
 
-
 footer a {
-    color: rgb(233, 233, 233);
+    color: #E0E6ED;
     text-decoration: none;
 }
 
@@ -847,70 +844,204 @@ footer a {
 
 /* Mobile styles */
 @media screen and (max-width: 900px) {
-
-  footer {
-    position: fixed;
-    height: 70px;
-    padding: 25px 0 0 0;
-    clip-path: polygon(0 20px, 100% 0, 100% 100%, 0 100%);
-
+  .main-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: linear-gradient(135deg, var(--secondary) 0%, #0F1419 100%);
+    width: 100%;
   }
 
-  .hidden-menu {
+  .navbar {
+    padding: 0.75rem 0;
+  }
+
+  .nav-container {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0 16px;
+    width: 100%;
+  }
+
+  .burger {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 20px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1100;
+  }
+
+  .burger span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background: #ffffff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  .burger.open span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+                                                         .burger.open span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  .nav-menu {
     display: none;
+    flex-direction: column;
+    width: min(320px, calc(100% - 40px));
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+    background: rgba(7, 12, 20, 0.95);
+    border-radius: 14px;
+    padding: 0.5rem 0;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.35);
+    position: fixed;
+    left: 50%;
+    top: 72px;
+    transform: translateX(-50%);
+    z-index: 1100;
   }
 
-  #logo  {
-    position: absolute;
-    left: 20px;
-    top: 30%;
+  .nav-menu::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(4px);
+    z-index: -1;
   }
 
-  .global_chart{
-    float: none;
-    display: block; /* Zobrazí obrázek jako blokový prvek, aby mohl použít margin: 0 auto; */
-    margin: 0 auto; /* Horizontální centrování obrázku vůči rodičovskému kontejneru */
+  .nav-menu.open {
+    display: flex;
   }
-  .tradingview-widget-container{
-    float: none;
-    display: block; /* Zobrazí obrázek jako blokový prvek, aby mohl použít margin: 0 auto; */
-    margin: 0 auto; /* Horizontální centrování obrázku vůči rodičovskému kontejneru */
+
+  .nav-menu li {
+    width: 100%;
+    margin: 0.15rem 0;
   }
-  .reit_picture{
+
+  .nav-menu a {
+    width: 100%;
+    display: block;
+    text-align: center;
+    font-size: 1rem;
+    padding: 0.7rem 0;
+    margin: 0.15rem 0;
+    border-radius: 10px;
+    color: #E6F6FF;
+    background: rgba(0, 134, 255, 0.1);
+    font-weight: 700;
+  }
+
+  .nav-menu a:hover {
+    background: rgba(0, 134, 255, 0.25);
+  }
+
+
+  .nav-menu.open {
+    display: flex;
+  }
+
+  .nav-menu li {
+    width: 100%;
+  }
+
+  .nav-menu a {
+    width: 100%;
+    display: block;
+    text-align: center;
+    font-size: 1rem;
+    padding: 0.75rem 0;
+    margin: 0.1rem 0;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .hero {
+    padding: 70px 1rem 50px;
+    min-height: 520px;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 0.8rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 1.8rem;
+  }
+
+  .hero-stats {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+    gap: 0.8rem;
+  }
+
+  .services-grid,
+  .records-grid,
+  .testimonials,
+  .client-categories,
+  .fun-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .footer {
+    padding: 1.5rem 1rem;
+    text-align: center;
+  }
+
+  .footer p {
+    margin: 0.3rem 0;
+    font-size: 0.9rem;
+  }
+
+  .chart-bars {
+    gap: 0.7rem;
+  }
+
+  .bar span {
+    font-size: 0.78rem;
+    width: 75px;
+  }
+
+  .global_chart,
+  .tradingview-widget-container,
+  .reit_picture {
+    float: none;
+    display: block;
+    margin: 0 auto;
     max-width: 100%;
   }
 }
 
-.tradingview-widget-container{
-    max-width: 600px;
+.tradingview-widget-container {
+    max-width: 100%;
     height: auto;
 }
 
 article h4 {
-    text-indent: 20px; /* Odsazení prvního řádku */
-    line-height: 1.2em; /* Výška řádku je 1.5krát větší než velikost textu */
-
+    text-indent: 20px;
+    line-height: 1.2em;
 }
 article h2 {
-    line-height: 1.2em; /* Výška řádku je 1.5krát větší než velikost textu */
+    line-height: 1.2em;
 }
 article h3 {
-    line-height: 1.2em; /* Výška řádku je 1.5krát větší než velikost textu */
+    line-height: 1.2em;
     text-align: left;
 }
 
-li p {
-    margin: 0;
-}
-
-
-li {
-    margin: -0.6em;
-}
-
-
-li {
-    margin-bottom: 1em; /* nebo jiná hodnota podle vašich preferencí */
-}
-
-
+li p { margin: 0; }
+li { margin: -0.6em; }
+li { margin-bottom: 1em; }

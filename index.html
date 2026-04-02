@@ -22,8 +22,13 @@
                 <h1><span>lmvest</span></h1>
                 <p class="tagline">Algo Trading & Wealth Management</p>
             </div>
+            <button id="burger" class="burger" aria-label="Otevřít menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <ul class="nav-menu">
-                <li><a href="#about">O mně</a></li>
+                <li><a href="#about">O mně</a></li>
                 <li><a href="#services">Služby</a></li>
                 <li><a href="#track-record">Výkony</a></li>
                 <li><a href="#clients">Klienti</a></li>
@@ -267,5 +272,15 @@
         <p>Investování do finančních instrumentů zahrnuje riziko. Minulé výkonnosti nemusí být zárukou budoucích výsledků.</p>
     </div>
 </footer>
+
+<script>
+    const burger = document.getElementById('burger');
+    const navMenu = document.querySelector('.nav-menu');
+
+    burger.addEventListener('click', () => {
+        navMenu.classList.toggle('open');
+        burger.classList.toggle('open');
+    });
+</script>
 
 </body>
