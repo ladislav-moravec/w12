@@ -311,69 +311,110 @@ body {
 
 /* ========== ABOUT SECTION ========== */
 .about-section {
-    padding: 80px 0;
-    background: var(--bg-light);
+    padding: 80px 0 100px;
+    background: linear-gradient(135deg, #0C1422, #07101B);
+    color: #E0E6ED;
 }
 
 .about-content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.about-text {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
 }
 
 .about-text h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1.5rem;
-    color: var(--secondary);
+    font-size: 2.35rem;
+    margin-bottom: 1rem;
+    color: #E8F7FF;
 }
 
 .about-text p {
-    color: var(--text-light);
-    margin-bottom: 1.5rem;
-    font-size: 1.05rem;
+    color: #cadbf0;
+    margin-bottom: 1rem;
+    font-size: 1.04rem;
+    line-height: 1.7;
+}
+
+.about-text strong {
+    color: #A8D8FF;
+}
+
+.benefits-list {
+    list-style: none;
+    margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.85rem;
+}
+
+.benefits-list li {
+    background: rgba(8, 15, 28, 0.5);
+    border: 1px solid rgba(110, 160, 220, 0.25);
+    border-radius: 10px;
+    padding: 0.85rem 0.9rem;
+    color: #dcecff;
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    min-height: 52px;
+    transition: box-shadow 0.2s ease;
+}
+
+.benefits-list li:hover {
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+
+.benefits-list li:before {
+    content: "✓";
+    color: var(--primary);
+    font-weight: 800;
+    margin-top: 0.1rem;
 }
 
 .about-motto {
-    font-size: 1.1rem;
-    color: white;
-    margin-top: 16px;
+    font-size: 1.14rem;
+    color: #cce6ff;
+    margin-top: 1.4rem;
     border-left: 3px solid var(--primary);
     padding-left: 10px;
     font-style: italic;
 }
 
-.about-text strong {
-    color: var(--secondary);
-}
 
-.benefits-list {
-    list-style: none;
-    margin-top: 2rem;
-}
 
-.benefits-list li {
-    padding: 0.75rem 0;
-    color: var(--text);
-    font-weight: 500;
-    font-size: 1.05rem;
-}
-
-.benefits-list li:before {
-    color: var(--primary);
-    font-weight: bold;
-    margin-right: 0.75rem;
-}
 
 .about-image {
     display: flex;
     justify-content: center;
     align-items: center;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 153, 255, 0.2));
+    border: 1px solid rgba(0, 212, 255, 0.35);
+    border-radius: 16px;
+    padding: 0.9rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    max-width: 200px;
+    margin: 0;
 }
 
 .image-placeholder {
-    width: 300px;
-    height: 300px;
+    width: 145px;
+    height: 145px;
+}
+
+.about-text h2 {
+    text-align: left;
 }
 
 .image-placeholder svg {
@@ -385,14 +426,15 @@ body {
 /* ========== SERVICES SECTION ========== */
 .services-section {
     padding: 80px 0;
-    background: white;
+    background: linear-gradient(135deg, #101822, #08111C);
+    color: white;
 }
 
 .services-section h2 {
     font-size: 2.5rem;
     text-align: center;
     margin-bottom: 3rem;
-    color: var(--secondary);
+    color: white;
 }
 
 .services-grid {
@@ -402,10 +444,10 @@ body {
 }
 
 .service-card {
-    background: white;
+    background: rgba(10, 18, 32, 0.85);
     padding: 2rem;
     border-radius: 15px;
-    border: 2px solid var(--border);
+    border: 1px solid rgba(128, 180, 245, 0.2);
     transition: all 0.3s ease;
     text-align: center;
 }
@@ -413,7 +455,7 @@ body {
 .service-card:hover {
     border-color: var(--primary);
     transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(0, 212, 255, 0.15);
+    box-shadow: 0 15px 40px rgba(0, 212, 255, 0.35);
 }
 
 .service-icon {
@@ -424,11 +466,11 @@ body {
 .service-card h3 {
     font-size: 1.3rem;
     margin-bottom: 1rem;
-    color: var(--secondary);
+    color: #D1E6FF;
 }
 
 .service-card p {
-    color: var(--text-light);
+    color: #BFD8F7;
     line-height: 1.7;
 }
 
@@ -538,11 +580,77 @@ body {
     margin-bottom: 0.5rem;
 }
 
+/* ========== APPROACH SECTION ========== */
+.approach-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, var(--secondary), #0F1419);
+    color: white;
+}
+
+.approach-section h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: white;
+}
+
+.approach-stats h2 {
+    margin-bottom: 2rem;
+    color: var(--primary);
+}
+
+.approach-stats {
+    text-align: center;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.approach-stats h3 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: var(--secondary);
+}
+
+.approach-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1rem;
+}
+
+.category {
+    background: rgba(17, 26, 44, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    padding: 1.2rem 1.1rem;
+    border-radius: 14px;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+    transition: all 0.3s ease;
+}
+
+.category:hover {
+    transform: translateY(-5px);
+    border-color: rgba(0, 212, 255, 0.5);
+    box-shadow: 0 10px 40px rgba(0, 212, 255, 0.35);
+}
+
+.category p {
+    color: #71c8ff;
+    font-size: 1.15rem;
+    font-weight: 600;
+    text-align: center;
+}
+
 /* ========== CLIENTS SECTION ========== */
 .clients-section {
     padding: 80px 0;
     background: linear-gradient(135deg, var(--secondary), #0F1419);
     color: white;
+    text-align: center;
 }
 
 .clients-section h2 {
@@ -552,38 +660,20 @@ body {
     color: white;
 }
 
+/* Toto přidá mezeru za každý jednotlivý komentář */
+.testimonial {
+    margin-bottom: 10px; /* Upravte si číslo podle potřeby */
+    display: block;      /* Pojistka, aby margin fungoval správně */
+}
+
+/* Toto odstraní mezeru za úplně posledním komentářem v seznamu */
+.testimonial:last-child {
+    margin-bottom: 0;
+}
+
 .clients-stats h2 {
     margin-bottom: 2rem;
     color: var(--primary);
-}
-
-.testimonials {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-bottom: 4rem;
-}
-
-.testimonial {
-    background: white;
-    padding: 2rem;
-    border-radius: 15px;
-    border-left: 4px solid var(--primary);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-}
-
-.quote {
-    font-style: italic;
-    color: var(--text);
-    margin-bottom: 1rem;
-    font-size: 1.05rem;
-    line-height: 1.8;
-}
-
-.author {
-    color: var(--primary);
-    font-weight: 600;
-    font-size: 0.95rem;
 }
 
 .clients-stats {
@@ -634,8 +724,7 @@ body {
 .category p {
     color: #71c8ff;
     font-size: 1.15rem;
-    font-weight: 700;
-    margin: 0;
+    font-weight: 600;
 }
 
 /* ========== FUN SECTION ========== */
@@ -747,6 +836,15 @@ body {
 
     .about-content {
         grid-template-columns: 1fr;
+    }
+
+    .about-image {
+        max-width: 150px;
+        margin: 0 auto 1rem;
+    }
+
+    .about-text h2 {
+        text-align: center;
     }
 
     .nav-menu {
