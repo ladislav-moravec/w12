@@ -79,7 +79,7 @@ export default function Header({
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-extrabold text-xl tracking-tight text-white">LM <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-accent-cyan">CAPITAL</span></span>
+              <span className="font-extrabold text-2xl tracking-tight text-white">LM<span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-accent-cyan">vest</span></span>
               <span className="bg-brand-500/10 text-brand-400 text-[10px] font-bold px-1.5 py-0.5 rounded border border-brand-500/20">PRO</span>
             </div>
             <p className="text-[11px] text-gray-400 font-medium">Akciový Screener & Správa Portfolia</p>

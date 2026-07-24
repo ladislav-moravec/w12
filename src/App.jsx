@@ -217,7 +217,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-lg bg-brand-600 flex items-center justify-center font-bold text-white text-xs">LM</div>
-            <span className="font-bold text-gray-300">LM Capital Screener</span>
+            <span className="font-bold text-gray-300">LMvest Screener</span>
             <span>© 2026</span>
           </div>
           <p className="text-gray-500 max-w-md text-left sm:text-right">

@@ -16,10 +16,10 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyDemoKeyForLMCapitalScreener000",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "lm-capital-demo.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "lm-capital-demo",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "lm-capital-demo.appspot.com",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyDemoKeyForLMvestScreener000",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "lmvest-demo.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "lmvest-demo",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "lmvest-demo.appspot.com",
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "1234567890",
   appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:1234567890:web:abcdef123456"
 };
