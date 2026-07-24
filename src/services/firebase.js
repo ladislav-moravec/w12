@@ -16,12 +16,13 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyDemoKeyForLMvestScreener000",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "lmvest-demo.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "lmvest-demo",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "lmvest-demo.appspot.com",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "1234567890",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:1234567890:web:abcdef123456"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyC-TofTnOIEe6m9YtTf8xLeDZoEhiumZIs",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "lmvest.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "lmvest",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "lmvest.firebasestorage.app",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "131378771241",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:131378771241:web:52d7efd28442d0b6fef338",
+  measurementId: "G-X03P8DEPB9"
 };
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
