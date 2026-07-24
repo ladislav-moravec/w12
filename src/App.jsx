@@ -29,7 +29,7 @@ export default function App() {
   // Auth observer & initial load
   useEffect(() => {
     // Check local demo storage first
-    const demoUser = localStorage.getItem("lm_capital_demo_user");
+    const demoUser = localStorage.getItem("lmvest_demo_user");
     if (demoUser) {
       try {
         const u = JSON.parse(demoUser);
@@ -45,7 +45,7 @@ export default function App() {
         setHoldings(data);
       } else if (!demoUser) {
         // Guest mode default portfolio
-        const guestData = localStorage.getItem('lm_capital_guest_portfolio');
+        const guestData = localStorage.getItem('lmvest_guest_portfolio');
         if (guestData) {
           try { setHoldings(JSON.parse(guestData)); } catch (e) {}
         } else {
@@ -68,7 +68,7 @@ export default function App() {
     if (user) {
       saveUserPortfolio(user.uid, newHoldings);
     } else {
-      localStorage.setItem('lm_capital_guest_portfolio', JSON.stringify(newHoldings));
+      localStorage.setItem('lmvest_guest_portfolio', JSON.stringify(newHoldings));
     }
   };
 

@@ -30,23 +30,29 @@ export const db = getFirestore(app);
 export const googleProvider = new GoogleAuthProvider();
 export { onAuthStateChanged };
 
+const isApiKeyError = (err) => {
+  if (!err) return false;
+  const str = `${err.code || ''} ${err.message || ''}`.toLowerCase();
+  return str.includes('api-key') || str.includes('invalid-api-key') || str.includes('not-valid') || str.includes('internal-error');
+};
+
 export const loginWithGoogle = async () => {
   try {
     const result = await signInWithPopup(auth, googleProvider);
     return { user: result.user, error: null };
   } catch (error) {
     console.warn("Firebase Google login warning:", error);
-    if (error.code === 'auth/api-key-not-valid' || error.code === 'auth/invalid-api-key' || error.message?.includes('API key')) {
+    if (isApiKeyError(error)) {
       const demoUser = {
         uid: "demo-user-123",
         displayName: "Investor (Google Demo)",
-        email: "investor@example.com",
+        email: "investor@lmvest.com",
         photoURL: "https://api.dicebear.com/7.x/avataaars/svg?seed=Investor"
       };
-      localStorage.setItem("lm_capital_demo_user", JSON.stringify(demoUser));
+      localStorage.setItem("lmvest_demo_user", JSON.stringify(demoUser));
       return { user: demoUser, error: null, isDemo: true };
     }
-    return { user: null, error: error.message };
+    return { user: null, error: error.message || "Chyba při přihlášení." };
   }
 };
 
@@ -56,17 +62,17 @@ export const loginWithEmail = async (email, password) => {
     return { user: result.user, error: null };
   } catch (error) {
     console.warn("Firebase email login fallback:", error);
-    if (error.code === 'auth/api-key-not-valid' || error.code === 'auth/invalid-api-key' || error.code === 'auth/user-not-found') {
+    if (isApiKeyError(error) || error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
       const demoUser = {
         uid: "demo-email-user",
         displayName: email.split('@')[0] || "Uživatel",
         email: email,
         photoURL: `https://api.dicebear.com/7.x/avataaars/svg?seed=${email}`
       };
-      localStorage.setItem("lm_capital_demo_user", JSON.stringify(demoUser));
+      localStorage.setItem("lmvest_demo_user", JSON.stringify(demoUser));
       return { user: demoUser, error: null, isDemo: true };
     }
-    return { user: null, error: error.message };
+    return { user: null, error: error.message || "Chyba při přihlášení e-mailem." };
   }
 };
 
@@ -82,7 +88,7 @@ export const registerWithEmail = async (email, password, name) => {
       email: email,
       photoURL: `https://api.dicebear.com/7.x/avataaars/svg?seed=${email}`
     };
-    localStorage.setItem("lm_capital_demo_user", JSON.stringify(demoUser));
+    localStorage.setItem("lmvest_demo_user", JSON.stringify(demoUser));
     return { user: demoUser, error: null, isDemo: true };
   }
 };
@@ -93,7 +99,7 @@ export const logoutUser = async () => {
   } catch (err) {
     console.warn("Signout err", err);
   }
-  localStorage.removeItem("lm_capital_demo_user");
+  localStorage.removeItem("lmvest_demo_user");
 };
 
 export const saveUserPortfolio = async (userId, holdings) => {
@@ -118,6 +124,6 @@ export const loadUserPortfolio = async (userId) => {
   } catch (err) {
     console.warn("Firestore load fallback to localStorage", err);
   }
-  const localData = localStorage.getItem(`lm_portfolio_${userId}`) || localStorage.getItem('lm_capital_guest_portfolio');
+  const localData = localStorage.getItem(`lm_portfolio_${userId}`) || localStorage.getItem('lmvest_guest_portfolio');
   return localData ? JSON.parse(localData) : [];
 };
