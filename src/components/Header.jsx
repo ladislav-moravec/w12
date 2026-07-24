@@ -10,7 +10,8 @@ import {
   DollarSign, 
   Sparkles,
   Lock,
-  ChevronDown
+  ChevronDown,
+  Map
 } from 'lucide-react';
 import { MARKET_INDICES } from '../services/stockApi';
 
@@ -115,6 +116,18 @@ export default function Header({
                 {portfolioCount}
               </span>
             )}
+          </button>
+
+          <button
+            onClick={() => setActiveTab('heatmap')}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition ${
+              activeTab === 'heatmap' 
+                ? 'bg-brand-600 text-white shadow-md' 
+                : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+            }`}
+          >
+            <Map className="w-4 h-4" />
+            Heatmapa
           </button>
         </nav>
 

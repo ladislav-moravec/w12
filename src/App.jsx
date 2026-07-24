@@ -6,6 +6,7 @@ import ScreenerFilters from './components/ScreenerFilters';
 import PortfolioManager from './components/PortfolioManager';
 import StockSearchModal from './components/StockSearchModal';
 import AuthModal from './components/AuthModal';
+import StockHeatmap from './components/StockHeatmap';
 import { INITIAL_STOCKS } from './services/stockApi';
 import { auth, onAuthStateChanged, logoutUser, saveUserPortfolio, loadUserPortfolio } from './services/firebase';
 import { Sparkles, LineChart, Briefcase, CheckCircle2, ShieldCheck } from 'lucide-react';
@@ -181,6 +182,9 @@ export default function App() {
               />
             </div>
           </>
+        ) : activeTab === 'heatmap' ? (
+          /* Heatmap Tab View */
+          <StockHeatmap />
         ) : (
           /* Portfolio Tab View */
           <PortfolioManager 
