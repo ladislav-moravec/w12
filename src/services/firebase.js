@@ -34,7 +34,7 @@ export { onAuthStateChanged };
 const isApiKeyError = (err) => {
   if (!err) return false;
   const str = `${err.code || ''} ${err.message || ''}`.toLowerCase();
-  return str.includes('api-key') || str.includes('invalid-api-key') || str.includes('not-valid') || str.includes('internal-error');
+  return str.includes('api-key') || str.includes('invalid-api-key') || str.includes('not-valid') || str.includes('internal-error') || str.includes('configuration-not-found');
 };
 
 export const loginWithGoogle = async () => {
