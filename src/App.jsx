@@ -9,12 +9,13 @@ import AuthModal from './components/AuthModal';
 import StockHeatmap from './components/StockHeatmap';
 import FavoritesBar from './components/FavoritesBar';
 import OptionsWheelView from './components/OptionsWheelView';
+import MacroEconomyView from './components/MacroEconomyView';
 import { INITIAL_STOCKS } from './services/stockApi';
 import { auth, onAuthStateChanged, logoutUser, saveUserPortfolio, loadUserPortfolio } from './services/firebase';
-import { Sparkles, LineChart, Briefcase, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { Sparkles, LineChart, Briefcase, CheckCircle2, ShieldCheck, SlidersHorizontal, Globe } from 'lucide-react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('screener'); // 'screener' | 'portfolio' | 'heatmap' | 'options'
+  const [activeTab, setActiveTab] = useState('chart'); // 'chart' | 'screener' | 'macro' | 'options' | 'heatmap' | 'portfolio'
   const [selectedStock, setSelectedStock] = useState(INITIAL_STOCKS[0]); // NVDA default
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
@@ -164,7 +165,7 @@ export default function App() {
 
       {/* App Body */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-        {activeTab === 'screener' ? (
+        {activeTab === 'chart' ? (
           <>
             {/* 1. Quick Favorites Bar (Directly Above Chart) */}
             <FavoritesBar 
@@ -192,7 +193,7 @@ export default function App() {
               />
             </div>
 
-            {/* 3. Detailed Stock Information, Indicators, 3 Financial Statements & News (Under Chart) */}
+            {/* 3. Detailed Stock Information, Indicators, 4-Year Financial Charts with Forecasts & News (Under Chart) */}
             <StockDetailsCard 
               stock={selectedStock}
               onAddToPortfolio={handleAddHolding}
@@ -200,21 +201,33 @@ export default function App() {
               isFavorite={favorites.includes(selectedStock.symbol.toUpperCase())}
               onToggleFavorite={handleToggleFavorite}
             />
-
-            {/* 4. Screener Filters & Stock Table */}
-            <div className="pt-4 space-y-3">
-              <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-brand-500" />
-                Akciový Screener a Přehled Tickerů
-              </h3>
-              <ScreenerFilters 
-                onSelectStock={setSelectedStock}
-                selectedStock={selectedStock}
-                onAddToPortfolio={handleAddHolding}
-                portfolioHoldings={holdings}
-              />
-            </div>
           </>
+        ) : activeTab === 'screener' ? (
+          /* Standalone Screener Tab View */
+          <div className="space-y-4">
+            <div className="glass-card rounded-2xl p-6 border border-gray-800 shadow-xl bg-gradient-to-r from-[#0d1322] to-[#0f172a]">
+              <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                <SlidersHorizontal className="w-6 h-6 text-accent-cyan" />
+                Akciový Screener & Vyhledávání Tickerů
+              </h2>
+              <p className="text-xs text-gray-400 mt-1">
+                Filtrujte akcie podle odvětví, tržní kapitalizace, největších skokanů/propadlíků a P/E ukazatele. Kliknutím na akcii získáte její detail a graf.
+              </p>
+            </div>
+
+            <ScreenerFilters 
+              onSelectStock={(stock) => {
+                setSelectedStock(stock);
+                setActiveTab('chart');
+              }}
+              selectedStock={selectedStock}
+              onAddToPortfolio={handleAddHolding}
+              portfolioHoldings={holdings}
+            />
+          </div>
+        ) : activeTab === 'macro' ? (
+          /* Macroeconomics & Global Economy Tab View */
+          <MacroEconomyView />
         ) : activeTab === 'options' ? (
           /* Options Tab View */
           <OptionsWheelView 
@@ -241,7 +254,10 @@ export default function App() {
       <StockSearchModal 
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
-        onSelectStock={setSelectedStock}
+        onSelectStock={(s) => {
+          setSelectedStock(s);
+          setActiveTab('chart');
+        }}
         onAddToPortfolio={handleAddHolding}
         portfolioHoldings={holdings}
       />
@@ -260,7 +276,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-lg bg-brand-600 flex items-center justify-center font-bold text-white text-xs">LM</div>
-            <span className="font-bold text-gray-300">LMvest Screener & Opce 30D</span>
+            <span className="font-bold text-gray-300">LMvest Screener, Makro & Opce</span>
             <span>© 2026</span>
           </div>
           <p className="text-gray-500 max-w-md text-left sm:text-right">

@@ -18,7 +18,7 @@ import {
   Layers,
   Scale
 } from 'lucide-react';
-import { fetchStockNews, fetchFinancialStatements } from '../services/stockApi';
+import { fetchStockNews, fetchFinancialStatements, fetchHistoricalFinancials } from '../services/stockApi';
 
 export default function StockDetailsCard({ 
   stock, 
@@ -30,6 +30,7 @@ export default function StockDetailsCard({
   const [news, setNews] = useState([]);
   const [isRefreshingNews, setIsRefreshingNews] = useState(false);
   const [activeStatementTab, setActiveStatementTab] = useState('income'); // 'income' | 'balance' | 'cashflow'
+  const [activeChartMetric, setActiveChartMetric] = useState('revenue'); // 'revenue' | 'netIncome' | 'freeCashFlow' | 'eps'
 
   useEffect(() => {
     if (stock) {
@@ -62,8 +63,13 @@ export default function StockDetailsCard({
   const targetPrice = (stock.price * 1.18).toFixed(2);
   const targetUpside = 18.0;
 
-  // Financial statements
+  // Financial statements & historical chart data
   const statements = fetchFinancialStatements(stock.symbol);
+  const historicalData = fetchHistoricalFinancials(stock.symbol);
+
+  // Selected chart metric data
+  const chartItems = historicalData[activeChartMetric] || [];
+  const maxVal = Math.max(...chartItems.map(d => d.value), 1);
 
   return (
     <div className="glass-card rounded-2xl p-6 border border-gray-800 shadow-xl space-y-6">
@@ -210,6 +216,98 @@ export default function StockDetailsCard({
             </div>
             <span className="text-[11px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
               +{targetUpside}% Upside
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* 4-Year Historical Financial Charts & Future Estimates (2022-2027E) */}
+      <div className="bg-gray-950/90 p-5 rounded-2xl border border-gray-800/80 space-y-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-gray-800 pb-3">
+          <div>
+            <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <BarChart3 className="w-4 h-4 text-emerald-400" />
+              Historie Účetnictví (2022–2025) a Odhady Růstu (2026E–2027E)
+            </h3>
+            <p className="text-[11px] text-gray-400 mt-0.5">
+              Přehled vývoje hospodaření společnosti za 4 roky + budoucí odhady Wall Street analytiků.
+            </p>
+          </div>
+
+          {/* Metric selector */}
+          <div className="flex bg-gray-900 border border-gray-800 rounded-xl p-1 text-xs shrink-0">
+            <button
+              onClick={() => setActiveChartMetric('revenue')}
+              className={`px-2.5 py-1 rounded-lg font-semibold transition ${
+                activeChartMetric === 'revenue' ? 'bg-emerald-600 text-white shadow' : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              Tržby
+            </button>
+            <button
+              onClick={() => setActiveChartMetric('netIncome')}
+              className={`px-2.5 py-1 rounded-lg font-semibold transition ${
+                activeChartMetric === 'netIncome' ? 'bg-emerald-600 text-white shadow' : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              Čistý Zisk
+            </button>
+            <button
+              onClick={() => setActiveChartMetric('freeCashFlow')}
+              className={`px-2.5 py-1 rounded-lg font-semibold transition ${
+                activeChartMetric === 'freeCashFlow' ? 'bg-emerald-600 text-white shadow' : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              Free Cash Flow
+            </button>
+            <button
+              onClick={() => setActiveChartMetric('eps')}
+              className={`px-2.5 py-1 rounded-lg font-semibold transition ${
+                activeChartMetric === 'eps' ? 'bg-emerald-600 text-white shadow' : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              EPS
+            </button>
+          </div>
+        </div>
+
+        {/* Visual Bar Chart */}
+        <div className="pt-2">
+          <div className="grid grid-cols-6 gap-2 sm:gap-4 items-end h-48 px-2 pb-2 border-b border-gray-800">
+            {chartItems.map((item, idx) => {
+              const heightPct = Math.max(12, Math.round((item.value / maxVal) * 100));
+              return (
+                <div key={idx} className="flex flex-col items-center gap-2 h-full justify-end group">
+                  <span className="text-[10px] sm:text-xs font-mono font-bold text-gray-200">
+                    {activeChartMetric === 'eps' ? `$${item.value}` : `$${item.value}B`}
+                  </span>
+
+                  <div className="w-full max-w-[44px] bg-gray-900 rounded-t-lg h-full flex items-end overflow-hidden">
+                    <div 
+                      className={`w-full rounded-t-lg transition-all duration-500 ${
+                        item.isEstimate 
+                          ? 'bg-gradient-to-t from-brand-600/80 to-accent-cyan border-t-2 border-accent-cyan' 
+                          : 'bg-gradient-to-t from-emerald-600 to-emerald-400'
+                      }`}
+                      style={{ height: `${heightPct}%` }}
+                    ></div>
+                  </div>
+
+                  <span className={`text-[10px] font-mono text-center font-medium ${
+                    item.isEstimate ? 'text-brand-300 font-bold' : 'text-gray-400'
+                  }`}>
+                    {item.year}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+          <div className="flex items-center justify-between text-[11px] text-gray-400 pt-3 px-2 font-mono">
+            <span className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded bg-emerald-500 inline-block"></span> Historická Skutečnost (2022-2025)
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded bg-accent-cyan inline-block"></span> Konsenzuální Odhad (2026E-2027E)
             </span>
           </div>
         </div>

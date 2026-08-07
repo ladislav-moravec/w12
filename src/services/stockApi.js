@@ -647,7 +647,6 @@ export const fetchFinancialStatements = (stockSymbol) => {
     symbol,
     currency: "USD",
     period: "Posledních 12 měsíců (TTM)",
-    // 1. Výkaz Zisku a Ztráty (Income Statement)
     incomeStatement: [
       { name: "Celkové Tržby (Revenue)", value: `$${rev}B`, change: "+24.5% YoY", status: "positive" },
       { name: "Hrubý Zisk (Gross Profit)", value: `$${grossProfit}B`, change: "Marže 66.8%", status: "positive" },
@@ -655,7 +654,6 @@ export const fetchFinancialStatements = (stockSymbol) => {
       { name: "Čistý Zisk (Net Income)", value: `$${netIncome}B`, change: "+31.4% YoY", status: "positive" },
       { name: "Zisk na Akcii (EPS)", value: `$${(found.price / (found.peRatio || 25)).toFixed(2)}`, change: "TTM", status: "neutral" }
     ],
-    // 2. Rozvaha (Balance Sheet)
     balanceSheet: [
       { name: "Celková Aktiva (Total Assets)", value: `$${totalAssets}B`, change: "Silná rozvaha", status: "positive" },
       { name: "Hotovost & Ekvivalenty (Cash)", value: `$${cash}B`, change: "Vysoká likvidita", status: "positive" },
@@ -663,7 +661,6 @@ export const fetchFinancialStatements = (stockSymbol) => {
       { name: "Vlastní Kapitál (Total Equity)", value: `$${totalEquity}B`, change: "Rostoucí", status: "positive" },
       { name: "Pomer Dluhu k Vlastnímu Kapitálu (D/E)", value: `${(totalDebt / totalEquity).toFixed(2)}`, change: "< 0.5 Ideální", status: "positive" }
     ],
-    // 3. Výkaz Cash Flow (Cash Flow Statement)
     cashFlow: [
       { name: "Provozní Cash Flow (Operating CF)", value: `$${operatingCF}B`, change: "+22.0% YoY", status: "positive" },
       { name: "Kapitálové Výdaje (CapEx)", value: `$${capEx}B`, change: "Investice do R&D", status: "neutral" },
@@ -672,6 +669,229 @@ export const fetchFinancialStatements = (stockSymbol) => {
     ]
   };
 };
+
+// Historical 4-Year Financial Data (2022-2025) + Future Estimates (2026E, 2027E)
+export const fetchHistoricalFinancials = (stockSymbol) => {
+  const symbol = stockSymbol.toUpperCase();
+  const found = INITIAL_STOCKS.find(s => s.symbol === symbol) || INITIAL_STOCKS[0];
+  const capMult = found.marketCap.endsWith('T') ? 1000 : 1;
+  const baseRev = parseFloat(found.marketCap) * capMult * 0.08;
+
+  const years = ["2022", "2023", "2024", "2025 (TTM)", "2026E (Odhad)", "2027E (Odhad)"];
+  
+  // Growth multipliers per year
+  const revMultipliers = [0.65, 0.78, 0.92, 1.0, 1.18, 1.38];
+  const netIncomeMultipliers = [0.55, 0.70, 0.88, 1.0, 1.22, 1.45];
+  const fcfMultipliers = [0.50, 0.68, 0.85, 1.0, 1.25, 1.50];
+
+  const baseEPS = found.price / (found.peRatio || 25);
+
+  return {
+    symbol,
+    years,
+    revenue: years.map((year, i) => ({
+      year,
+      value: Number((baseRev * revMultipliers[i]).toFixed(1)),
+      isEstimate: year.includes('E')
+    })),
+    netIncome: years.map((year, i) => ({
+      year,
+      value: Number((baseRev * 0.3 * netIncomeMultipliers[i]).toFixed(1)),
+      isEstimate: year.includes('E')
+    })),
+    freeCashFlow: years.map((year, i) => ({
+      year,
+      value: Number((baseRev * 0.35 * fcfMultipliers[i]).toFixed(1)),
+      isEstimate: year.includes('E')
+    })),
+    eps: years.map((year, i) => ({
+      year,
+      value: Number((baseEPS * netIncomeMultipliers[i]).toFixed(2)),
+      isEstimate: year.includes('E')
+    }))
+  };
+};
+
+// Global Macroeconomic Countries Dataset
+export const GLOBAL_MACRO_DATA = [
+  {
+    code: "USA",
+    country: "Spojené Státy Americké",
+    flag: "🇺🇸",
+    centralBank: "Federal Reserve (FED)",
+    interestRate: 5.25,
+    gdpBillions: 28200,
+    gdpGrowth: 2.8,
+    inflation: 2.9,
+    debtToGdp: 122.3,
+    unemployment: 4.1,
+    rating: "AAA",
+    outlook: "Stabilní",
+    keyFocus: "FED zvažuje snížení sazeb. Sledována jádrová inflace PCE a trh práce."
+  },
+  {
+    code: "CZK",
+    country: "Česká Republika",
+    flag: "🇨🇿",
+    centralBank: "Česká Národní Banka (ČNB)",
+    interestRate: 4.50,
+    gdpBillions: 330,
+    gdpGrowth: 1.4,
+    inflation: 2.2,
+    debtToGdp: 44.2,
+    unemployment: 3.8,
+    rating: "AA-",
+    outlook: "Pozitivní",
+    keyFocus: "ČNB drží opatrné tempo snižování sazeb. Inflace se drží v 2% tolerančním pásmu."
+  },
+  {
+    code: "SVK",
+    country: "Slovensko",
+    flag: "🇸🇰",
+    centralBank: "Európska Centrálna Banka (ECB)",
+    interestRate: 3.75,
+    gdpBillions: 135,
+    gdpGrowth: 2.1,
+    inflation: 2.7,
+    debtToGdp: 57.8,
+    unemployment: 5.4,
+    rating: "A",
+    outlook: "Stabilní",
+    keyFocus: "Řešení rozpočtového konsolidačního balíčku a závislost na exportu automotive."
+  },
+  {
+    code: "POL",
+    country: "Polsko",
+    flag: "🇵🇱",
+    centralBank: "Narodowy Bank Polski (NBP)",
+    interestRate: 5.75,
+    gdpBillions: 840,
+    gdpGrowth: 3.1,
+    inflation: 4.2,
+    debtToGdp: 49.6,
+    unemployment: 5.0,
+    rating: "A-",
+    outlook: "Pozitivní",
+    keyFocus: "Silný spotřebitelský růst a vysoký příliv EU fondů pro infrastrukturu."
+  },
+  {
+    code: "DEU",
+    country: "Německo",
+    flag: "🇩🇪",
+    centralBank: "Európska Centrálna Banka (ECB)",
+    interestRate: 3.75,
+    gdpBillions: 4500,
+    gdpGrowth: 0.3,
+    inflation: 2.3,
+    debtToGdp: 63.7,
+    unemployment: 5.9,
+    rating: "AAA",
+    outlook: "Stabilní",
+    keyFocus: "Strukturální výzvy v průmyslu a vysoké ceny energií pro výrobní sektor."
+  },
+  {
+    code: "GBR",
+    country: "Velká Británie",
+    flag: "🇬🇧",
+    centralBank: "Bank of England (BoE)",
+    interestRate: 5.00,
+    gdpBillions: 3300,
+    gdpGrowth: 1.1,
+    inflation: 2.2,
+    debtToGdp: 98.5,
+    unemployment: 4.2,
+    rating: "AA",
+    outlook: "Stabilní",
+    keyFocus: "BoE započala uvolňování měnové politiky. Sledována fiskální politika nové vlády."
+  },
+  {
+    code: "JPN",
+    country: "Japonsko",
+    flag: "🇯🇵",
+    centralBank: "Bank of Japan (BoJ)",
+    interestRate: 0.25,
+    gdpBillions: 4200,
+    gdpGrowth: 0.7,
+    inflation: 2.8,
+    debtToGdp: 254.6,
+    unemployment: 2.5,
+    rating: "A+",
+    outlook: "Stabilní",
+    keyFocus: "BoJ postupně opouští záporné sazby. Volatilitu způsobuje yen carry trade."
+  },
+  {
+    code: "CHN",
+    country: "Čína",
+    flag: "🇨🇳",
+    centralBank: "People's Bank of China (PBoC)",
+    interestRate: 3.35,
+    gdpBillions: 18500,
+    gdpGrowth: 4.8,
+    inflation: 0.5,
+    debtToGdp: 83.6,
+    unemployment: 5.0,
+    rating: "A+",
+    outlook: "Negativní",
+    keyFocus: "Stimulační balíčky pro realitní sektor a boj s deflačními tlaky."
+  },
+  {
+    code: "CHE",
+    country: "Švýcarsko",
+    flag: "🇨🇭",
+    centralBank: "Swiss National Bank (SNB)",
+    interestRate: 1.25,
+    gdpBillions: 890,
+    gdpGrowth: 1.2,
+    inflation: 1.3,
+    debtToGdp: 38.1,
+    unemployment: 2.3,
+    rating: "AAA",
+    outlook: "Stabilní",
+    keyFocus: "Nejnižší inflace v Evropě. SNB intervence pro stabilizaci švýcarského franku."
+  },
+  {
+    code: "EUR",
+    country: "Eurozóna (Celkem)",
+    flag: "🇪🇺",
+    centralBank: "Európska Centrálna Banka (ECB)",
+    interestRate: 3.75,
+    gdpBillions: 15800,
+    gdpGrowth: 0.8,
+    inflation: 2.6,
+    debtToGdp: 88.6,
+    unemployment: 6.4,
+    rating: "AA+",
+    outlook: "Stabilní",
+    keyFocus: "ECB vyvažuje zpomalující růst s návratem inflace k 2% cíli."
+  }
+];
+
+export const fetchMacroNews = () => [
+  {
+    id: 1,
+    title: "Rozhodování FED a ECB: Očekává se koordinované snižování úrokových sazeb na podzim",
+    source: "Financial Times",
+    time: "Před 1 hodinou",
+    country: "USA / EU",
+    summary: "Centrální banky vnímájí pokles inflačních tlaků a zaměřují se na podporu hospodářského růstu a zaměstnanosti."
+  },
+  {
+    id: 2,
+    title: "Česká Národní Banka (ČNB) drží opatrný přístup. Koruna reaguje zpevněním vůči Euru",
+    source: "Hospodářské Noviny",
+    time: "Před 3 hodinami",
+    country: "Česká Republika",
+    summary: "Inflace v ČR na 2.2% je stabilizovaná, avšak růst cen služeb brzdí agresivnější pokles sazeb."
+  },
+  {
+    id: 3,
+    title: "Bank of Japan a dopady na globální trhy: Yen Carry Trade a nová sazba BoJ",
+    source: "Nikkei Asia",
+    time: "Před 5 hodinami",
+    country: "Japonsko",
+    summary: "Zvýšení sazeb v Japonsku vyvolalo přesun kapitálu z globálních akctiv zpět do yenu."
+  }
+];
 
 // Stock news & catalysts generator tailored for selected ticker
 export const fetchStockNews = (stockSymbol) => {
@@ -761,5 +981,6 @@ export const fetchStockNews = (stockSymbol) => {
 
   return newsDatabase[stockSymbol.toUpperCase()] || defaultNews;
 };
+
 
 

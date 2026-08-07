@@ -12,7 +12,9 @@ import {
   Lock,
   ChevronDown,
   Map,
-  CircleDollarSign
+  CircleDollarSign,
+  Globe,
+  SlidersHorizontal
 } from 'lucide-react';
 import { MARKET_INDICES } from '../services/stockApi';
 
@@ -97,7 +99,7 @@ export default function Header({
       {/* Main Header Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-3">
         {/* Brand Logo */}
-        <div className="flex items-center gap-2.5 cursor-pointer group shrink-0" onClick={() => setActiveTab('screener')}>
+        <div className="flex items-center gap-2.5 cursor-pointer group shrink-0" onClick={() => setActiveTab('chart')}>
           <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-brand-700 via-brand-600 to-accent-cyan flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform">
             <LineChart className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
           </div>
@@ -106,12 +108,24 @@ export default function Header({
               <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-white">LM<span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-accent-cyan">vest</span></span>
               <span className="bg-brand-500/10 text-brand-400 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded border border-brand-500/20">PRO</span>
             </div>
-            <p className="text-[10px] sm:text-[11px] text-gray-400 font-medium hidden xs:block">Akciový Screener & Portfolio</p>
+            <p className="text-[10px] sm:text-[11px] text-gray-400 font-medium hidden xs:block">Grafy, Screener & Makroekonomie</p>
           </div>
         </div>
 
         {/* Desktop Navigation Tabs */}
-        <nav className="hidden lg:flex items-center gap-1 bg-gray-900/80 p-1.5 rounded-xl border border-gray-800">
+        <nav className="hidden xl:flex items-center gap-1 bg-gray-900/80 p-1.5 rounded-xl border border-gray-800">
+          <button
+            onClick={() => setActiveTab('chart')}
+            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition ${
+              activeTab === 'chart' 
+                ? 'bg-brand-600 text-white shadow-md' 
+                : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+            }`}
+          >
+            <LineChart className="w-4 h-4 text-brand-400" />
+            Graf & Detail Akcie
+          </button>
+
           <button
             onClick={() => setActiveTab('screener')}
             className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition ${
@@ -120,25 +134,20 @@ export default function Header({
                 : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
             }`}
           >
-            <LineChart className="w-4 h-4" />
-            Screener & Grafy
+            <SlidersHorizontal className="w-4 h-4 text-accent-cyan" />
+            Screener Tickerů
           </button>
 
           <button
-            onClick={() => setActiveTab('portfolio')}
-            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition relative ${
-              activeTab === 'portfolio' 
+            onClick={() => setActiveTab('macro')}
+            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition ${
+              activeTab === 'macro' 
                 ? 'bg-brand-600 text-white shadow-md' 
                 : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
             }`}
           >
-            <Briefcase className="w-4 h-4" />
-            Moje Portfolio
-            {portfolioCount > 0 && (
-              <span className="ml-1 bg-emerald-500/20 text-emerald-400 font-mono text-[10px] px-1.5 py-0.2 rounded-full border border-emerald-500/30">
-                {portfolioCount}
-              </span>
-            )}
+            <Globe className="w-4 h-4 text-amber-400" />
+            Makro & Státy
           </button>
 
           <button
@@ -150,7 +159,7 @@ export default function Header({
             }`}
           >
             <CircleDollarSign className="w-4 h-4 text-emerald-400" />
-            Opce & Wheel
+            Opce 30D
           </button>
 
           <button
@@ -164,6 +173,23 @@ export default function Header({
             <Map className="w-4 h-4" />
             Heatmapa
           </button>
+
+          <button
+            onClick={() => setActiveTab('portfolio')}
+            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition relative ${
+              activeTab === 'portfolio' 
+                ? 'bg-brand-600 text-white shadow-md' 
+                : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+            }`}
+          >
+            <Briefcase className="w-4 h-4" />
+            Portfolio
+            {portfolioCount > 0 && (
+              <span className="ml-1 bg-emerald-500/20 text-emerald-400 font-mono text-[10px] px-1.5 py-0.2 rounded-full border border-emerald-500/30">
+                {portfolioCount}
+              </span>
+            )}
+          </button>
         </nav>
 
         {/* Right Actions: Search trigger & Auth */}
@@ -174,7 +200,7 @@ export default function Header({
           >
             <Search className="w-4 h-4 text-brand-500 group-hover:scale-110 transition-transform" />
             <span className="hidden sm:inline font-medium">Hledat ticker</span>
-            <kbd className="hidden xl:inline-block bg-gray-800 text-gray-400 text-[10px] px-1.5 py-0.5 rounded font-mono border border-gray-700">⌘K</kbd>
+            <kbd className="hidden 2xl:inline-block bg-gray-800 text-gray-400 text-[10px] px-1.5 py-0.5 rounded font-mono border border-gray-700">⌘K</kbd>
           </button>
 
           {/* User Auth Profile Button */}
@@ -233,8 +259,20 @@ export default function Header({
         </div>
       </div>
 
-      {/* Mobile Top Navigation Tab Strip (Visible on mobile & tablet < lg) */}
-      <div className="flex lg:hidden items-center justify-around bg-[#070a12] border-t border-gray-800/60 px-2 py-1.5 overflow-x-auto no-scrollbar">
+      {/* Mobile & Tablet Navigation Tab Strip */}
+      <div className="flex xl:hidden items-center justify-start bg-[#070a12] border-t border-gray-800/60 px-2 py-1.5 overflow-x-auto no-scrollbar gap-1">
+        <button
+          onClick={() => setActiveTab('chart')}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition shrink-0 ${
+            activeTab === 'chart' 
+              ? 'bg-brand-600 text-white shadow-md' 
+              : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          <LineChart className="w-3.5 h-3.5 text-brand-400" />
+          Graf & Detail
+        </button>
+
         <button
           onClick={() => setActiveTab('screener')}
           className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition shrink-0 ${
@@ -243,25 +281,20 @@ export default function Header({
               : 'text-gray-400 hover:text-white'
           }`}
         >
-          <LineChart className="w-3.5 h-3.5" />
-          Screener & Grafy
+          <SlidersHorizontal className="w-3.5 h-3.5 text-accent-cyan" />
+          Screener
         </button>
 
         <button
-          onClick={() => setActiveTab('portfolio')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition relative shrink-0 ${
-            activeTab === 'portfolio' 
+          onClick={() => setActiveTab('macro')}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition shrink-0 ${
+            activeTab === 'macro' 
               ? 'bg-brand-600 text-white shadow-md' 
               : 'text-gray-400 hover:text-white'
           }`}
         >
-          <Briefcase className="w-3.5 h-3.5" />
-          Portfolio
-          {portfolioCount > 0 && (
-            <span className="ml-0.5 bg-emerald-500/20 text-emerald-400 font-mono text-[9px] px-1.5 py-0.2 rounded-full border border-emerald-500/30">
-              {portfolioCount}
-            </span>
-          )}
+          <Globe className="w-3.5 h-3.5 text-amber-400" />
+          Makro
         </button>
 
         <button
@@ -273,7 +306,7 @@ export default function Header({
           }`}
         >
           <CircleDollarSign className="w-3.5 h-3.5 text-emerald-400" />
-          Opce & Wheel
+          Opce 30D
         </button>
 
         <button
@@ -286,6 +319,18 @@ export default function Header({
         >
           <Map className="w-3.5 h-3.5" />
           Heatmapa
+        </button>
+
+        <button
+          onClick={() => setActiveTab('portfolio')}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition relative shrink-0 ${
+            activeTab === 'portfolio' 
+              ? 'bg-brand-600 text-white shadow-md' 
+              : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          <Briefcase className="w-3.5 h-3.5" />
+          Portfolio
         </button>
       </div>
     </header>
