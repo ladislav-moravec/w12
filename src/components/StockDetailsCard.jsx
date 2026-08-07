@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -10,9 +10,15 @@ import {
   Target, 
   ShieldCheck, 
   Sparkles,
-  ExternalLink
+  RefreshCw,
+  FileText,
+  DollarSign,
+  PieChart,
+  BarChart3,
+  Layers,
+  Scale
 } from 'lucide-react';
-import { fetchStockNews } from '../services/stockApi';
+import { fetchStockNews, fetchFinancialStatements } from '../services/stockApi';
 
 export default function StockDetailsCard({ 
   stock, 
@@ -21,6 +27,24 @@ export default function StockDetailsCard({
   isFavorite = false,
   onToggleFavorite
 }) {
+  const [news, setNews] = useState([]);
+  const [isRefreshingNews, setIsRefreshingNews] = useState(false);
+  const [activeStatementTab, setActiveStatementTab] = useState('income'); // 'income' | 'balance' | 'cashflow'
+
+  useEffect(() => {
+    if (stock) {
+      setNews(fetchStockNews(stock.symbol));
+    }
+  }, [stock]);
+
+  const handleRefreshNews = () => {
+    setIsRefreshingNews(true);
+    setTimeout(() => {
+      setNews(fetchStockNews(stock.symbol));
+      setIsRefreshingNews(false);
+    }, 600);
+  };
+
   if (!stock) return null;
 
   const isPositive = stock.change >= 0;
@@ -38,8 +62,8 @@ export default function StockDetailsCard({
   const targetPrice = (stock.price * 1.18).toFixed(2);
   const targetUpside = 18.0;
 
-  // News items
-  const newsList = fetchStockNews(stock.symbol);
+  // Financial statements
+  const statements = fetchFinancialStatements(stock.symbol);
 
   return (
     <div className="glass-card rounded-2xl p-6 border border-gray-800 shadow-xl space-y-6">
@@ -103,7 +127,7 @@ export default function StockDetailsCard({
         </div>
       </div>
 
-      {/* Financial Metrics Grid */}
+      {/* Primary Financial Metrics Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
         <div className="bg-gray-900/60 p-3.5 rounded-xl border border-gray-800">
           <span className="text-xs text-gray-400 block mb-1">Tržní kapitalizace</span>
@@ -191,15 +215,108 @@ export default function StockDetailsCard({
         </div>
       </div>
 
-      {/* Stock News & Catalysts Section */}
+      {/* Complete Financial Statements Section (Income Statement, Balance Sheet, Cash Flow) */}
+      <div className="bg-gray-950/80 p-5 rounded-2xl border border-gray-800/80 space-y-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-gray-800 pb-3">
+          <div>
+            <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <FileText className="w-4 h-4 text-brand-400" />
+              Kompletní Účetnictví & Finanční Výkazy TTM ({stock.symbol})
+            </h3>
+            <p className="text-[11px] text-gray-400 mt-0.5">
+              Detailní auditované výsledky hospodaření z rozvahy, zisku a ztrát a výkazu cash flow.
+            </p>
+          </div>
+
+          {/* Statement Tabs */}
+          <div className="flex bg-gray-900 border border-gray-800 rounded-xl p-1 text-xs shrink-0">
+            <button
+              onClick={() => setActiveStatementTab('income')}
+              className={`px-3 py-1.5 rounded-lg font-semibold transition ${
+                activeStatementTab === 'income' ? 'bg-brand-600 text-white shadow-md' : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              1. Zisk a Ztráta
+            </button>
+            <button
+              onClick={() => setActiveStatementTab('balance')}
+              className={`px-3 py-1.5 rounded-lg font-semibold transition ${
+                activeStatementTab === 'balance' ? 'bg-brand-600 text-white shadow-md' : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              2. Rozvaha
+            </button>
+            <button
+              onClick={() => setActiveStatementTab('cashflow')}
+              className={`px-3 py-1.5 rounded-lg font-semibold transition ${
+                activeStatementTab === 'cashflow' ? 'bg-brand-600 text-white shadow-md' : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              3. Cash Flow
+            </button>
+          </div>
+        </div>
+
+        {/* Financial Statement Content Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {activeStatementTab === 'income' && statements.incomeStatement.map((item, index) => (
+            <div key={index} className="bg-gray-900/70 p-3.5 rounded-xl border border-gray-800/80 flex items-center justify-between">
+              <div>
+                <span className="text-xs text-gray-400 block mb-0.5">{item.name}</span>
+                <span className="text-base font-bold font-mono text-white">{item.value}</span>
+              </div>
+              <span className="text-xs font-semibold font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                {item.change}
+              </span>
+            </div>
+          ))}
+
+          {activeStatementTab === 'balance' && statements.balanceSheet.map((item, index) => (
+            <div key={index} className="bg-gray-900/70 p-3.5 rounded-xl border border-gray-800/80 flex items-center justify-between">
+              <div>
+                <span className="text-xs text-gray-400 block mb-0.5">{item.name}</span>
+                <span className="text-base font-bold font-mono text-white">{item.value}</span>
+              </div>
+              <span className="text-xs font-semibold font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                {item.change}
+              </span>
+            </div>
+          ))}
+
+          {activeStatementTab === 'cashflow' && statements.cashFlow.map((item, index) => (
+            <div key={index} className="bg-gray-900/70 p-3.5 rounded-xl border border-gray-800/80 flex items-center justify-between">
+              <div>
+                <span className="text-xs text-gray-400 block mb-0.5">{item.name}</span>
+                <span className="text-base font-bold font-mono text-white">{item.value}</span>
+              </div>
+              <span className="text-xs font-semibold font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                {item.change}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Stock News & Catalysts Section with Live Refresh */}
       <div className="space-y-3 pt-2">
-        <h3 className="text-sm font-bold text-white flex items-center gap-2">
-          <Newspaper className="w-4 h-4 text-brand-400" />
-          Aktuální Zprávy a Katalyzátory pro {stock.symbol}
-        </h3>
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-bold text-white flex items-center gap-2">
+            <Newspaper className="w-4 h-4 text-brand-400" />
+            Živé Zprávy a Katalyzátory pro {stock.symbol}
+          </h3>
+
+          <button
+            onClick={handleRefreshNews}
+            disabled={isRefreshingNews}
+            className="flex items-center gap-1.5 px-3 py-1 bg-gray-900 hover:bg-gray-800 border border-gray-800 text-gray-300 rounded-lg text-xs font-medium transition"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 text-brand-400 ${isRefreshingNews ? 'animate-spin' : ''}`} />
+            <span>Obnovit Zprávy</span>
+          </button>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {newsList.map((item) => (
+          {news.map((item) => (
             <div 
               key={item.id} 
               className="bg-gray-900/60 p-3.5 rounded-xl border border-gray-800/80 hover:border-gray-700 transition flex flex-col justify-between"

@@ -17,7 +17,7 @@ import { INITIAL_STOCKS, fetchOptionChain30D } from '../services/stockApi';
 
 export default function OptionsWheelView({ selectedStock, onSelectStock }) {
   const [activeTicker, setActiveTicker] = useState(selectedStock?.symbol || 'NVDA');
-  const [optionTypeFilter, setOptionTypeFilter] = useState('PUT'); // 'PUT' (Cash Secured Put) | 'CALL' (Covered Call) | 'ALL'
+  const [optionTypeFilter, setOptionTypeFilter] = useState('PUT'); // 'PUT' | 'CALL' | 'ALL'
   const [selectedOptionRow, setSelectedOptionRow] = useState(null);
   const [showRealtimeDataModal, setShowRealtimeDataModal] = useState(false);
 
@@ -33,18 +33,18 @@ export default function OptionsWheelView({ selectedStock, onSelectStock }) {
             <div className="flex items-center gap-2 mb-1">
               <span className="bg-brand-500/10 text-brand-400 text-xs font-bold px-2.5 py-1 rounded-full border border-brand-500/20 flex items-center gap-1.5">
                 <CircleDollarSign className="w-3.5 h-3.5" />
-                Option Wheel Strategy (~30 Days DTE)
+                Opční Analýza (~30 Days DTE)
               </span>
               <span className="bg-emerald-500/10 text-emerald-400 text-xs font-semibold px-2.5 py-1 rounded-full border border-emerald-500/20">
-                Příjmová Opční Strategie
+                Příjmové Deriváty
               </span>
             </div>
             <h1 className="text-2xl font-bold text-white flex items-center gap-3 mt-2">
-              Opční Řetězec & Výnosy z Prémie: <span className="text-brand-400 font-mono">{currentStock.symbol}</span>
+              Opční Řetězec & Výnos z Prémie: <span className="text-brand-400 font-mono">{currentStock.symbol}</span>
             </h1>
             <p className="text-xs text-gray-400 mt-1 max-w-3xl">
-              Strategie Option Wheel spočívá v prodávání **Cash-Secured Putů** (0.20-0.30 Delta) na akcie, které chcete vlastnit, 
-              a při přiřazení prodáváte **Covered Call** opce. Expirace 30 dní přináší optimální časový rozpad (Theta decay).
+              Přehled opčních kontraktů s expirací okolo 30 dní. Sledujte výnosnost z prémie (ARR % p.a.), Deltu opce, 
+              odstup strike ceny od aktuálního spotu a hodnocení ziskového potenciálu.
             </p>
           </div>
 
@@ -118,7 +118,7 @@ export default function OptionsWheelView({ selectedStock, onSelectStock }) {
             </h4>
             <p className="text-xs text-gray-300 mt-1 leading-relaxed">
               Všechny bezplatné veřejné API (Yahoo Finance, CBOE public) poskytují opční data s **15minutovým zpožděním** kvůli poplatkům sítě OPRA. 
-              Pro ne-zpožděná data v reálném čase je vyžadováno placené API (Polygon.io Realtime Options, ThetaData Pro) nebo účet u brokera s platným opčním předplatným (Interactive Brokers, Tradier). Pro 30D Option Wheel je však 15-min zpoždění plně dostačující.
+              Pro ne-zpožděná data v reálném čase je vyžadováno placené API (Polygon.io Realtime Options, ThetaData Pro) nebo účet u brokera s platným opčním předplatným (Interactive Brokers, Tradier). Pro 30D expirace je však 15-min zpoždění plně dostačující.
             </p>
           </div>
         </div>
@@ -126,7 +126,7 @@ export default function OptionsWheelView({ selectedStock, onSelectStock }) {
           onClick={() => setShowRealtimeDataModal(true)}
           className="px-3.5 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-semibold shrink-0 transition"
         >
-          Detailní Přehled Z zdrojů
+          Přehled Z zdrojů
         </button>
       </div>
 
@@ -143,7 +143,7 @@ export default function OptionsWheelView({ selectedStock, onSelectStock }) {
                   : 'text-gray-400 hover:text-white'
               }`}
             >
-              Cash Secured Puts (CSP)
+              PUT Opce (Kredit)
             </button>
             <button
               onClick={() => setOptionTypeFilter('CALL')}
@@ -153,7 +153,7 @@ export default function OptionsWheelView({ selectedStock, onSelectStock }) {
                   : 'text-gray-400 hover:text-white'
               }`}
             >
-              Covered Calls (CC)
+              CALL Opce (Kredit)
             </button>
             <button
               onClick={() => setOptionTypeFilter('ALL')}
@@ -169,7 +169,7 @@ export default function OptionsWheelView({ selectedStock, onSelectStock }) {
         </div>
 
         <div className="text-xs text-gray-400 font-mono">
-          * Cílová Delta pro prodávání Putů: <span className="text-emerald-400 font-bold">0.20 – 0.30</span>
+          * Cílová Delta pro vypisování opcí: <span className="text-emerald-400 font-bold">0.20 – 0.30</span>
         </div>
       </div>
 
@@ -186,7 +186,7 @@ export default function OptionsWheelView({ selectedStock, onSelectStock }) {
                 <th className="py-3 px-4">Bid / Ask</th>
                 <th className="py-3 px-4">Delta</th>
                 <th className="py-3 px-4">Roční Výnos (ARR % p.a.)</th>
-                <th className="py-3 px-4">Wheel Rating</th>
+                <th className="py-3 px-4">Hodnocení Pásma</th>
                 <th className="py-3 px-4 text-right">Detail</th>
               </tr>
             </thead>
@@ -213,7 +213,7 @@ export default function OptionsWheelView({ selectedStock, onSelectStock }) {
                         {row.pctDiff > 0 ? '+' : ''}{row.pctDiff}% ({put.safetyMarginPercent}% polštář)
                       </td>
                       <td className="py-3 px-4 font-bold text-emerald-400">
-                        PUT (CSP)
+                        PUT
                       </td>
                       <td className="py-3 px-4 font-bold text-white text-sm">
                         ${put.mid.toFixed(2)} <span className="text-[10px] text-gray-400 font-normal">(${(put.mid * 100).toFixed(0)} / kontrakt)</span>
@@ -263,7 +263,7 @@ export default function OptionsWheelView({ selectedStock, onSelectStock }) {
                         {row.pctDiff > 0 ? '+' : ''}{row.pctDiff}% (upside)
                       </td>
                       <td className="py-3 px-4 font-bold text-blue-400">
-                        CALL (CC)
+                        CALL
                       </td>
                       <td className="py-3 px-4 font-bold text-white text-sm">
                         ${call.mid.toFixed(2)} <span className="text-[10px] text-gray-400 font-normal">(${(call.mid * 100).toFixed(0)} / kontrakt)</span>
@@ -335,7 +335,7 @@ export default function OptionsWheelView({ selectedStock, onSelectStock }) {
                 ${(selectedOptionRow.strike * 100).toFixed(0)}
               </span>
               <p className="text-xs text-gray-400 mt-2">
-                Blokovaná hotovost v případě přiřazení (assignment) u Cash-Secured Putu.
+                Blokovaná hotovost v případě přiřazení u výpisu opce.
               </p>
             </div>
 
@@ -387,7 +387,7 @@ export default function OptionsWheelView({ selectedStock, onSelectStock }) {
               </div>
 
               <p className="text-emerald-400 font-semibold bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/20">
-                💡 **Pro strategii Option Wheel (30D expirace):** 15-minutové zpoždění je plně postačující pro nalezení vhodného striku (Delta 0.20-0.30) a výpočet výnosu ARR %.
+                💡 Pro 30D expirace je 15-minutové zpoždění plně postačující pro nalezení vhodného striku (Delta 0.20-0.30) a výpočet výnosu ARR %.
               </p>
             </div>
           </div>

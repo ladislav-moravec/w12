@@ -562,21 +562,21 @@ export const fetchOptionChain30D = (stockSymbol, currentPrice = 124.30) => {
     const cspARR = Number(((putPrice / strike) * (365 / dte) * 100).toFixed(1));
     const ccARR = Number(((callPrice / currentPrice) * (365 / dte) * 100).toFixed(1));
 
-    // Wheel strategy suitability rating
+    // Option suitability rating
     let putRating = "Nízký Výnos";
     if (putDelta >= 0.15 && putDelta <= 0.30) {
-      putRating = "⭐ Ideální Wheel CSP (0.20-0.30 Delta)";
+      putRating = "⭐ Cílová Delta (0.20-0.30)";
     } else if (putDelta > 0.30 && putDelta <= 0.45) {
-      putRating = "Agresivní Premium (Vyšší riziko přiřazení)";
+      putRating = "Vyšší Prémie (Bližší k ceně)";
     } else if (putDelta < 0.15 && putDelta >= 0.05) {
-      putRating = "Konzervativní (Vysoká bezpečnost)";
+      putRating = "Konzervativní (Vzdálenější)";
     }
 
-    let callRating = "Konzervativní CC";
+    let callRating = "Konzervativní Call";
     if (callDelta >= 0.20 && callDelta <= 0.35) {
-      callRating = "⭐ Ideální Covered Call (0.25-0.35 Delta)";
+      callRating = "⭐ Cílová Delta (0.25-0.35)";
     } else if (callDelta > 0.35) {
-      callRating = "Agresivní CC (Riziko odprodeje akcií)";
+      callRating = "Vyšší Prémie (Bližší k ceně)";
     }
 
     strikes.push({
@@ -614,10 +614,62 @@ export const fetchOptionChain30D = (stockSymbol, currentPrice = 124.30) => {
     expirationDate: expirationStr,
     impliedVolatility: iv,
     ivRank: Math.round(iv * 1.1),
-    earningsNotice: "Výsledky hospodaření až po expiraci (nízké riziko IV crush)",
+    earningsNotice: "Výsledky hospodaření až po expiraci",
     dataStatus: "Delayed 15-min (OPRA standard)",
     isRealtimeAvailable: false,
     strikes
+  };
+};
+
+// Complete Financial Statements (Income Statement, Balance Sheet, Cash Flow Statement)
+export const fetchFinancialStatements = (stockSymbol) => {
+  const symbol = stockSymbol.toUpperCase();
+  const found = INITIAL_STOCKS.find(s => s.symbol === symbol) || INITIAL_STOCKS[0];
+  const capMult = found.marketCap.endsWith('T') ? 1000 : 1;
+  const rawCap = parseFloat(found.marketCap) * capMult; // in Billions
+
+  const rev = (rawCap * 0.12).toFixed(1);
+  const grossProfit = (rawCap * 0.08).toFixed(1);
+  const ebitda = (rawCap * 0.045).toFixed(1);
+  const netIncome = (rawCap * 0.035).toFixed(1);
+  
+  const totalAssets = (rawCap * 0.25).toFixed(1);
+  const cash = (rawCap * 0.08).toFixed(1);
+  const totalDebt = (rawCap * 0.06).toFixed(1);
+  const totalEquity = (totalAssets - totalDebt).toFixed(1);
+
+  const operatingCF = (rawCap * 0.042).toFixed(1);
+  const capEx = (rawCap * 0.012).toFixed(1);
+  const fcf = (operatingCF - capEx).toFixed(1);
+  const fcfYield = ((fcf / rawCap) * 100).toFixed(1);
+
+  return {
+    symbol,
+    currency: "USD",
+    period: "Posledních 12 měsíců (TTM)",
+    // 1. Výkaz Zisku a Ztráty (Income Statement)
+    incomeStatement: [
+      { name: "Celkové Tržby (Revenue)", value: `$${rev}B`, change: "+24.5% YoY", status: "positive" },
+      { name: "Hrubý Zisk (Gross Profit)", value: `$${grossProfit}B`, change: "Marže 66.8%", status: "positive" },
+      { name: "EBITDA (Provozní zisk)", value: `$${ebitda}B`, change: "+28.1% YoY", status: "positive" },
+      { name: "Čistý Zisk (Net Income)", value: `$${netIncome}B`, change: "+31.4% YoY", status: "positive" },
+      { name: "Zisk na Akcii (EPS)", value: `$${(found.price / (found.peRatio || 25)).toFixed(2)}`, change: "TTM", status: "neutral" }
+    ],
+    // 2. Rozvaha (Balance Sheet)
+    balanceSheet: [
+      { name: "Celková Aktiva (Total Assets)", value: `$${totalAssets}B`, change: "Silná rozvaha", status: "positive" },
+      { name: "Hotovost & Ekvivalenty (Cash)", value: `$${cash}B`, change: "Vysoká likvidita", status: "positive" },
+      { name: "Celkový Dluh (Total Debt)", value: `$${totalDebt}B`, change: "Kontrolovaný", status: "neutral" },
+      { name: "Vlastní Kapitál (Total Equity)", value: `$${totalEquity}B`, change: "Rostoucí", status: "positive" },
+      { name: "Pomer Dluhu k Vlastnímu Kapitálu (D/E)", value: `${(totalDebt / totalEquity).toFixed(2)}`, change: "< 0.5 Ideální", status: "positive" }
+    ],
+    // 3. Výkaz Cash Flow (Cash Flow Statement)
+    cashFlow: [
+      { name: "Provozní Cash Flow (Operating CF)", value: `$${operatingCF}B`, change: "+22.0% YoY", status: "positive" },
+      { name: "Kapitálové Výdaje (CapEx)", value: `$${capEx}B`, change: "Investice do R&D", status: "neutral" },
+      { name: "Volný Cash Flow (Free Cash Flow)", value: `$${fcf}B`, change: "Čistá hotovost", status: "positive" },
+      { name: "FCF Yield (Výnos Volného Cash Flow)", value: `${fcfYield}%`, change: "Výnosnost p.a.", status: "positive" }
+    ]
   };
 };
 
@@ -709,4 +761,5 @@ export const fetchStockNews = (stockSymbol) => {
 
   return newsDatabase[stockSymbol.toUpperCase()] || defaultNews;
 };
+
 

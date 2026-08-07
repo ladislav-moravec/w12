@@ -166,7 +166,7 @@ export default function App() {
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
         {activeTab === 'screener' ? (
           <>
-            {/* Quick Favorites Bar */}
+            {/* 1. Quick Favorites Bar (Directly Above Chart) */}
             <FavoritesBar 
               favorites={favorites}
               selectedStock={selectedStock}
@@ -174,35 +174,34 @@ export default function App() {
               onToggleFavorite={handleToggleFavorite}
             />
 
-            {/* Top Interactive TradingView Chart & Details Section */}
-            <div className="space-y-4">
-              <StockDetailsCard 
-                stock={selectedStock}
-                onAddToPortfolio={handleAddHolding}
-                isInPortfolio={isInPortfolio(selectedStock.symbol)}
-                isFavorite={favorites.includes(selectedStock.symbol.toUpperCase())}
-                onToggleFavorite={handleToggleFavorite}
-              />
-
-              <div className="space-y-2">
-                <div className="flex items-center justify-between px-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-2">
-                    <LineChart className="w-5 h-5 text-brand-500" />
-                    Interaktivní Graf a Technická Analýza: <span className="text-brand-400 font-mono">{selectedStock.tradingViewSymbol || selectedStock.symbol}</span>
-                  </h3>
-                  <span className="text-xs text-gray-400 hidden sm:inline">
-                    * TradingView Engine v reálném čase zdarma
-                  </span>
-                </div>
-
-                <TradingViewChart 
-                  symbol={selectedStock.tradingViewSymbol || `NASDAQ:${selectedStock.symbol}`}
-                  height={540}
-                />
+            {/* 2. Interactive TradingView Chart Section */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between px-1">
+                <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <LineChart className="w-5 h-5 text-brand-500" />
+                  Interaktivní Graf: <span className="text-brand-400 font-mono">{selectedStock.tradingViewSymbol || selectedStock.symbol}</span>
+                </h3>
+                <span className="text-xs text-gray-400 hidden sm:inline">
+                  * TradingView Engine v reálném čase zdarma
+                </span>
               </div>
+
+              <TradingViewChart 
+                symbol={selectedStock.tradingViewSymbol || `NASDAQ:${selectedStock.symbol}`}
+                height={580}
+              />
             </div>
 
-            {/* Screener Filters & Stock Table */}
+            {/* 3. Detailed Stock Information, Indicators, 3 Financial Statements & News (Under Chart) */}
+            <StockDetailsCard 
+              stock={selectedStock}
+              onAddToPortfolio={handleAddHolding}
+              isInPortfolio={isInPortfolio(selectedStock.symbol)}
+              isFavorite={favorites.includes(selectedStock.symbol.toUpperCase())}
+              onToggleFavorite={handleToggleFavorite}
+            />
+
+            {/* 4. Screener Filters & Stock Table */}
             <div className="pt-4 space-y-3">
               <h3 className="text-lg font-bold text-white flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-brand-500" />
@@ -217,7 +216,7 @@ export default function App() {
             </div>
           </>
         ) : activeTab === 'options' ? (
-          /* Options & Wheel Strategy Tab View */
+          /* Options Tab View */
           <OptionsWheelView 
             selectedStock={selectedStock}
             onSelectStock={setSelectedStock}
@@ -261,7 +260,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-lg bg-brand-600 flex items-center justify-center font-bold text-white text-xs">LM</div>
-            <span className="font-bold text-gray-300">LMvest Screener & Option Wheel</span>
+            <span className="font-bold text-gray-300">LMvest Screener & Opce 30D</span>
             <span>© 2026</span>
           </div>
           <p className="text-gray-500 max-w-md text-left sm:text-right">
