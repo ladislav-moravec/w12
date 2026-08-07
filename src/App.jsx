@@ -7,18 +7,21 @@ import PortfolioManager from './components/PortfolioManager';
 import StockSearchModal from './components/StockSearchModal';
 import AuthModal from './components/AuthModal';
 import StockHeatmap from './components/StockHeatmap';
+import FavoritesBar from './components/FavoritesBar';
+import OptionsWheelView from './components/OptionsWheelView';
 import { INITIAL_STOCKS } from './services/stockApi';
 import { auth, onAuthStateChanged, logoutUser, saveUserPortfolio, loadUserPortfolio } from './services/firebase';
 import { Sparkles, LineChart, Briefcase, CheckCircle2, ShieldCheck } from 'lucide-react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('screener'); // 'screener' | 'portfolio'
+  const [activeTab, setActiveTab] = useState('screener'); // 'screener' | 'portfolio' | 'heatmap' | 'options'
   const [selectedStock, setSelectedStock] = useState(INITIAL_STOCKS[0]); // NVDA default
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [currency, setCurrency] = useState('USD');
   const [user, setUser] = useState(null);
   const [holdings, setHoldings] = useState([]);
+  const [favorites, setFavorites] = useState(['NVDA', 'AAPL', 'MSFT', 'TSLA', 'PLTR', 'SPY']);
   const [toastMessage, setToastMessage] = useState('');
 
   // Toast notification trigger
@@ -29,7 +32,13 @@ export default function App() {
 
   // Auth observer & initial load
   useEffect(() => {
-    // Check local demo storage first
+    // Check local favorites
+    const savedFavs = localStorage.getItem("lmvest_favorites");
+    if (savedFavs) {
+      try { setFavorites(JSON.parse(savedFavs)); } catch (e) {}
+    }
+
+    // Check local demo storage
     const demoUser = localStorage.getItem("lmvest_demo_user");
     if (demoUser) {
       try {
@@ -62,6 +71,21 @@ export default function App() {
 
     return () => unsubscribe();
   }, []);
+
+  // Save favorites toggle
+  const handleToggleFavorite = (symbol) => {
+    const symUpper = symbol.toUpperCase();
+    let updated;
+    if (favorites.includes(symUpper)) {
+      updated = favorites.filter(s => s !== symUpper);
+      showToast(`Akcie ${symUpper} byla odebrána z oblíbených.`);
+    } else {
+      updated = [...favorites, symUpper];
+      showToast(`Akcie ${symUpper} byla přidána do oblíbených!`);
+    }
+    setFavorites(updated);
+    localStorage.setItem("lmvest_favorites", JSON.stringify(updated));
+  };
 
   // Save holdings state change
   const updateHoldingsState = (newHoldings) => {
@@ -142,12 +166,22 @@ export default function App() {
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
         {activeTab === 'screener' ? (
           <>
-            {/* Top Interactive TradingView Chart Section */}
+            {/* Quick Favorites Bar */}
+            <FavoritesBar 
+              favorites={favorites}
+              selectedStock={selectedStock}
+              onSelectStock={setSelectedStock}
+              onToggleFavorite={handleToggleFavorite}
+            />
+
+            {/* Top Interactive TradingView Chart & Details Section */}
             <div className="space-y-4">
               <StockDetailsCard 
                 stock={selectedStock}
                 onAddToPortfolio={handleAddHolding}
                 isInPortfolio={isInPortfolio(selectedStock.symbol)}
+                isFavorite={favorites.includes(selectedStock.symbol.toUpperCase())}
+                onToggleFavorite={handleToggleFavorite}
               />
 
               <div className="space-y-2">
@@ -182,6 +216,12 @@ export default function App() {
               />
             </div>
           </>
+        ) : activeTab === 'options' ? (
+          /* Options & Wheel Strategy Tab View */
+          <OptionsWheelView 
+            selectedStock={selectedStock}
+            onSelectStock={setSelectedStock}
+          />
         ) : activeTab === 'heatmap' ? (
           /* Heatmap Tab View */
           <StockHeatmap />
@@ -221,7 +261,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-lg bg-brand-600 flex items-center justify-center font-bold text-white text-xs">LM</div>
-            <span className="font-bold text-gray-300">LMvest Screener</span>
+            <span className="font-bold text-gray-300">LMvest Screener & Option Wheel</span>
             <span>© 2026</span>
           </div>
           <p className="text-gray-500 max-w-md text-left sm:text-right">

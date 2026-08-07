@@ -48,12 +48,12 @@ export default function TradingViewChart({ symbol = "NASDAQ:NVDA", theme = "dark
   const uniqueId = `tradingview_${symbol.replace(/[^a-zA-Z0-9]/g, '_')}`;
 
   return (
-    <div className="w-full glass-card rounded-2xl overflow-hidden p-2 border border-gray-800 shadow-xl">
+    <div className="w-full -mx-4 sm:mx-0 px-0 sm:px-0 glass-card rounded-none sm:rounded-2xl overflow-hidden border-y sm:border border-gray-800 shadow-2xl">
       <div 
         id={uniqueId} 
         ref={containerRef} 
-        style={{ height: `${height}px`, width: '100%' }}
-        className="rounded-xl overflow-hidden bg-[#0b0f19]"
+        style={{ width: '100%' }}
+        className="rounded-none sm:rounded-xl overflow-hidden bg-[#0b0f19] h-[400px] sm:h-[550px]"
       >
         <div className="flex items-center justify-center h-full text-gray-500 text-sm gap-2">
           <div className="w-5 h-5 border-2 border-brand-500 border-t-transparent rounded-full animate-spin"></div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -11,7 +11,8 @@ import {
   Sparkles,
   Lock,
   ChevronDown,
-  Map
+  Map,
+  CircleDollarSign
 } from 'lucide-react';
 import { MARKET_INDICES } from '../services/stockApi';
 
@@ -27,11 +28,33 @@ export default function Header({
   portfolioCount
 }) {
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  // Auto-hide header when scrolling down, reveal when scrolling up
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > 60 && currentScrollY > lastScrollY) {
+        setIsVisible(false); // Scroll down -> Hide
+      } else {
+        setIsVisible(true); // Scroll up or at top -> Show
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-[#0b0f19]/90 backdrop-blur-md border-b border-gray-800/80">
+    <header className={`sticky top-0 z-40 w-full bg-[#0b0f19]/95 backdrop-blur-md border-b border-gray-800/80 transition-transform duration-300 ${
+      isVisible ? 'translate-y-0' : '-translate-y-full shadow-none'
+    }`}>
       {/* Live Top Market Ticker Bar */}
-      <div className="bg-[#070a12] border-b border-gray-800/50 py-1.5 px-4 text-xs overflow-x-auto no-scrollbar">
+      <div className="bg-[#070a12] border-b border-gray-800/50 py-1 px-4 text-xs overflow-x-auto no-scrollbar">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-6 whitespace-nowrap">
           <div className="flex items-center gap-2 text-gray-400 font-medium shrink-0">
             <span className="flex h-2 w-2 relative">
@@ -72,26 +95,26 @@ export default function Header({
       </div>
 
       {/* Main Header Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-3">
         {/* Brand Logo */}
-        <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setActiveTab('screener')}>
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-700 via-brand-600 to-accent-cyan flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform">
-            <LineChart className="w-6 h-6 text-white" />
+        <div className="flex items-center gap-2.5 cursor-pointer group shrink-0" onClick={() => setActiveTab('screener')}>
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-brand-700 via-brand-600 to-accent-cyan flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform">
+            <LineChart className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <span className="font-extrabold text-2xl tracking-tight text-white">LM<span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-accent-cyan">vest</span></span>
-              <span className="bg-brand-500/10 text-brand-400 text-[10px] font-bold px-1.5 py-0.5 rounded border border-brand-500/20">PRO</span>
+            <div className="flex items-center gap-1.5">
+              <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-white">LM<span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-accent-cyan">vest</span></span>
+              <span className="bg-brand-500/10 text-brand-400 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded border border-brand-500/20">PRO</span>
             </div>
-            <p className="text-[11px] text-gray-400 font-medium">Akciový Screener & Správa Portfolia</p>
+            <p className="text-[10px] sm:text-[11px] text-gray-400 font-medium hidden xs:block">Akciový Screener & Portfolio</p>
           </div>
         </div>
 
         {/* Desktop Navigation Tabs */}
-        <nav className="hidden md:flex items-center gap-1 bg-gray-900/80 p-1.5 rounded-xl border border-gray-800">
+        <nav className="hidden lg:flex items-center gap-1 bg-gray-900/80 p-1.5 rounded-xl border border-gray-800">
           <button
             onClick={() => setActiveTab('screener')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition ${
+            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition ${
               activeTab === 'screener' 
                 ? 'bg-brand-600 text-white shadow-md' 
                 : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
@@ -103,7 +126,7 @@ export default function Header({
 
           <button
             onClick={() => setActiveTab('portfolio')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition relative ${
+            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition relative ${
               activeTab === 'portfolio' 
                 ? 'bg-brand-600 text-white shadow-md' 
                 : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
@@ -112,15 +135,27 @@ export default function Header({
             <Briefcase className="w-4 h-4" />
             Moje Portfolio
             {portfolioCount > 0 && (
-              <span className="ml-1 bg-emerald-500/20 text-emerald-400 font-mono text-[11px] px-1.5 py-0.2 rounded-full border border-emerald-500/30">
+              <span className="ml-1 bg-emerald-500/20 text-emerald-400 font-mono text-[10px] px-1.5 py-0.2 rounded-full border border-emerald-500/30">
                 {portfolioCount}
               </span>
             )}
           </button>
 
           <button
+            onClick={() => setActiveTab('options')}
+            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition ${
+              activeTab === 'options' 
+                ? 'bg-brand-600 text-white shadow-md' 
+                : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+            }`}
+          >
+            <CircleDollarSign className="w-4 h-4 text-emerald-400" />
+            Opce & Wheel
+          </button>
+
+          <button
             onClick={() => setActiveTab('heatmap')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition ${
+            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition ${
               activeTab === 'heatmap' 
                 ? 'bg-brand-600 text-white shadow-md' 
                 : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
@@ -132,14 +167,14 @@ export default function Header({
         </nav>
 
         {/* Right Actions: Search trigger & Auth */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <button
             onClick={onOpenSearch}
-            className="flex items-center gap-2 bg-gray-900 hover:bg-gray-800 border border-gray-800 text-gray-300 px-3.5 py-2 rounded-xl text-sm transition group"
+            className="flex items-center gap-2 bg-gray-900 hover:bg-gray-800 border border-gray-800 text-gray-300 px-3 py-1.5 rounded-xl text-xs transition group"
           >
             <Search className="w-4 h-4 text-brand-500 group-hover:scale-110 transition-transform" />
-            <span className="hidden sm:inline font-medium">Hledat ticker (AAPL, TSLA...)</span>
-            <kbd className="hidden lg:inline-block bg-gray-800 text-gray-400 text-[10px] px-1.5 py-0.5 rounded font-mono border border-gray-700">⌘K</kbd>
+            <span className="hidden sm:inline font-medium">Hledat ticker</span>
+            <kbd className="hidden xl:inline-block bg-gray-800 text-gray-400 text-[10px] px-1.5 py-0.5 rounded font-mono border border-gray-700">⌘K</kbd>
           </button>
 
           {/* User Auth Profile Button */}
@@ -147,21 +182,21 @@ export default function Header({
             <div className="relative">
               <button
                 onClick={() => setShowUserMenu(!showUserMenu)}
-                className="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-gray-700 p-1.5 pr-3 rounded-xl transition"
+                className="flex items-center gap-2 bg-gray-900 border border-gray-800 hover:border-gray-700 p-1.5 pr-2.5 rounded-xl transition"
               >
                 <img 
                   src={user.photoURL || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.email || 'user'}`} 
                   alt={user.displayName || 'Profil'} 
-                  className="w-7 h-7 rounded-lg bg-brand-600/30 border border-brand-500/30"
+                  className="w-6 h-6 rounded-lg bg-brand-600/30 border border-brand-500/30"
                 />
-                <span className="text-sm font-semibold text-gray-200 hidden md:inline max-w-[120px] truncate">
+                <span className="text-xs font-semibold text-gray-200 hidden md:inline max-w-[100px] truncate">
                   {user.displayName || user.email?.split('@')[0]}
                 </span>
-                <ChevronDown className="w-4 h-4 text-gray-400" />
+                <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
               </button>
 
               {showUserMenu && (
-                <div className="absolute right-0 mt-2 w-56 glass-panel rounded-xl shadow-2xl p-2 z-50 border border-gray-800">
+                <div className="absolute right-0 mt-2 w-56 glass-panel rounded-xl shadow-2xl p-2 z-50 border border-gray-800 bg-[#0b0f19]">
                   <div className="px-3 py-2 border-b border-gray-800 mb-1">
                     <p className="text-xs text-gray-400">Přihlášen jako</p>
                     <p className="text-sm font-bold text-white truncate">{user.email || user.displayName}</p>
@@ -171,14 +206,14 @@ export default function Header({
                   </div>
                   <button
                     onClick={() => { setActiveTab('portfolio'); setShowUserMenu(false); }}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-800/80 rounded-lg transition"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-gray-800/80 rounded-lg transition"
                   >
                     <Briefcase className="w-4 h-4 text-brand-400" />
                     Spravovat portfolio
                   </button>
                   <button
                     onClick={() => { onLogout(); setShowUserMenu(false); }}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-rose-400 hover:bg-rose-500/10 rounded-lg transition mt-1"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-xs text-rose-400 hover:bg-rose-500/10 rounded-lg transition mt-1"
                   >
                     <LogOut className="w-4 h-4" />
                     Odhlásit se
@@ -189,13 +224,69 @@ export default function Header({
           ) : (
             <button
               onClick={onOpenAuth}
-              className="flex items-center gap-2 bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-lg shadow-brand-500/25 transition active:scale-95"
+              className="flex items-center gap-1.5 bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 text-white px-3.5 py-1.5 rounded-xl text-xs font-semibold shadow-lg shadow-brand-500/25 transition active:scale-95 shrink-0"
             >
-              <User className="w-4 h-4" />
+              <User className="w-3.5 h-3.5" />
               <span>Přihlásit se</span>
             </button>
           )}
         </div>
+      </div>
+
+      {/* Mobile Top Navigation Tab Strip (Visible on mobile & tablet < lg) */}
+      <div className="flex lg:hidden items-center justify-around bg-[#070a12] border-t border-gray-800/60 px-2 py-1.5 overflow-x-auto no-scrollbar">
+        <button
+          onClick={() => setActiveTab('screener')}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition shrink-0 ${
+            activeTab === 'screener' 
+              ? 'bg-brand-600 text-white shadow-md' 
+              : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          <LineChart className="w-3.5 h-3.5" />
+          Screener & Grafy
+        </button>
+
+        <button
+          onClick={() => setActiveTab('portfolio')}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition relative shrink-0 ${
+            activeTab === 'portfolio' 
+              ? 'bg-brand-600 text-white shadow-md' 
+              : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          <Briefcase className="w-3.5 h-3.5" />
+          Portfolio
+          {portfolioCount > 0 && (
+            <span className="ml-0.5 bg-emerald-500/20 text-emerald-400 font-mono text-[9px] px-1.5 py-0.2 rounded-full border border-emerald-500/30">
+              {portfolioCount}
+            </span>
+          )}
+        </button>
+
+        <button
+          onClick={() => setActiveTab('options')}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition shrink-0 ${
+            activeTab === 'options' 
+              ? 'bg-brand-600 text-white shadow-md' 
+              : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          <CircleDollarSign className="w-3.5 h-3.5 text-emerald-400" />
+          Opce & Wheel
+        </button>
+
+        <button
+          onClick={() => setActiveTab('heatmap')}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition shrink-0 ${
+            activeTab === 'heatmap' 
+              ? 'bg-brand-600 text-white shadow-md' 
+              : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          <Map className="w-3.5 h-3.5" />
+          Heatmapa
+        </button>
       </div>
     </header>
   );

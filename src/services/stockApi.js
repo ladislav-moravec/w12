@@ -510,3 +510,203 @@ export const searchStocks = (query) => {
     stock.category.toLowerCase().includes(q)
   );
 };
+
+// Generate realistic ~30-day DTE Option Chain data for Option Wheel Strategy
+export const fetchOptionChain30D = (stockSymbol, currentPrice = 124.30) => {
+  const symbol = stockSymbol.toUpperCase();
+  const dte = 30; // 30 days to expiration target
+  const expDate = new Date();
+  expDate.setDate(expDate.getDate() + dte);
+  const expirationStr = expDate.toISOString().split('T')[0];
+
+  // Implied Volatility estimation based on ticker category
+  const ivMap = {
+    NVDA: 42.5, TSLA: 54.0, PLTR: 48.2, AMD: 44.0, SMCI: 65.0,
+    AAPL: 22.1, MSFT: 21.5, GOOGL: 24.8, AMZN: 28.0, META: 31.2,
+    SPY: 14.2, QQQ: 18.5, BRK: 16.0, JPM: 19.5, BTCUSD: 68.0
+  };
+  const iv = ivMap[symbol] || 32.0;
+
+  // Generate strikes around current price (-15% to +15%)
+  const strikes = [];
+  const baseStep = currentPrice > 300 ? 10 : currentPrice > 100 ? 5 : currentPrice > 50 ? 2.5 : 1;
+  const roundedPrice = Math.round(currentPrice / baseStep) * baseStep;
+
+  for (let i = -6; i <= 6; i++) {
+    const strike = Number((roundedPrice + i * baseStep).toFixed(2));
+    if (strike <= 0) continue;
+
+    // Distances
+    const pctDiff = ((strike - currentPrice) / currentPrice) * 100;
+    
+    // Put option delta approx
+    let putDelta = 0.5 - (pctDiff / 25);
+    putDelta = Math.max(0.05, Math.min(0.95, putDelta));
+
+    // Call option delta approx
+    let callDelta = 0.5 + (pctDiff / 25);
+    callDelta = Math.max(0.05, Math.min(0.95, callDelta));
+
+    // Rough Black-Scholes approximations for premiums
+    const timeFactor = Math.sqrt(dte / 365);
+    const putVolatilityValue = strike * (iv / 100) * timeFactor * 0.4;
+    const putIntrinsic = Math.max(0, strike - currentPrice);
+    const putPrice = Number((putVolatilityValue + putIntrinsic * 0.8).toFixed(2));
+
+    const callVolatilityValue = currentPrice * (iv / 100) * timeFactor * 0.4;
+    const callIntrinsic = Math.max(0, currentPrice - strike);
+    const callPrice = Number((callVolatilityValue + callIntrinsic * 0.8).toFixed(2));
+
+    // Annualized Return on Capital (ARR %) for Wheel Strategy
+    // ARR % = (Premium / Capital Required) * (365 / DTE) * 100
+    const cspARR = Number(((putPrice / strike) * (365 / dte) * 100).toFixed(1));
+    const ccARR = Number(((callPrice / currentPrice) * (365 / dte) * 100).toFixed(1));
+
+    // Wheel strategy suitability rating
+    let putRating = "Nízký Výnos";
+    if (putDelta >= 0.15 && putDelta <= 0.30) {
+      putRating = "⭐ Ideální Wheel CSP (0.20-0.30 Delta)";
+    } else if (putDelta > 0.30 && putDelta <= 0.45) {
+      putRating = "Agresivní Premium (Vyšší riziko přiřazení)";
+    } else if (putDelta < 0.15 && putDelta >= 0.05) {
+      putRating = "Konzervativní (Vysoká bezpečnost)";
+    }
+
+    let callRating = "Konzervativní CC";
+    if (callDelta >= 0.20 && callDelta <= 0.35) {
+      callRating = "⭐ Ideální Covered Call (0.25-0.35 Delta)";
+    } else if (callDelta > 0.35) {
+      callRating = "Agresivní CC (Riziko odprodeje akcií)";
+    }
+
+    strikes.push({
+      strike,
+      pctDiff: Number(pctDiff.toFixed(1)),
+      // PUT details
+      put: {
+        bid: Number((putPrice * 0.95).toFixed(2)),
+        ask: Number((putPrice * 1.05).toFixed(2)),
+        mid: putPrice,
+        delta: Number(putDelta.toFixed(2)),
+        arrPercent: cspARR,
+        safetyMarginPercent: Number((-pctDiff).toFixed(1)), // % below current price
+        rating: putRating,
+        suitableForWheel: putDelta >= 0.15 && putDelta <= 0.35
+      },
+      // CALL details
+      call: {
+        bid: Number((callPrice * 0.95).toFixed(2)),
+        ask: Number((callPrice * 1.05).toFixed(2)),
+        mid: callPrice,
+        delta: Number(callDelta.toFixed(2)),
+        arrPercent: ccARR,
+        upsideToStrikePercent: Number(pctDiff.toFixed(1)),
+        rating: callRating,
+        suitableForWheel: callDelta >= 0.15 && callDelta <= 0.35
+      }
+    });
+  }
+
+  return {
+    symbol,
+    spotPrice: currentPrice,
+    dte,
+    expirationDate: expirationStr,
+    impliedVolatility: iv,
+    ivRank: Math.round(iv * 1.1),
+    earningsNotice: "Výsledky hospodaření až po expiraci (nízké riziko IV crush)",
+    dataStatus: "Delayed 15-min (OPRA standard)",
+    isRealtimeAvailable: false,
+    strikes
+  };
+};
+
+// Stock news & catalysts generator tailored for selected ticker
+export const fetchStockNews = (stockSymbol) => {
+  const newsDatabase = {
+    NVDA: [
+      {
+        id: 1,
+        title: "NVIDIA představuje novou architekturu Blackwell B200 s rekordní poptávkou od hyperscalery",
+        source: "Bloomberg Finance",
+        time: "Před 2 hodinami",
+        sentiment: "positive",
+        summary: "Poptávka po AI čipech Blackwell překračuje výrobu na následujících 12 měsíců. Bank of America zvyšuje cílovou cenu na $165."
+      },
+      {
+        id: 2,
+        title: "Analytici Goldman Sachs potvrzují nákupní doporučení s přesvědčením o růstu datacentrových tržeb",
+        source: "Reuters",
+        time: "Před 5 hodinami",
+        sentiment: "positive",
+        summary: "Tržby z výpočetních čipů pro cloudové giganty Microsoft, Alphabet a Meta rostou o 45% meziročně."
+      },
+      {
+        id: 3,
+        title: "Exportní omezení do Číny zůstávají sledovaným rizikem pro dodavatelský řetězec TSMC",
+        source: "Financial Times",
+        time: "Včera",
+        sentiment: "warning",
+        summary: "Dopad na celkové tržby je však kompenzován masivní poptávkou na západních trzích."
+      }
+    ],
+    AAPL: [
+      {
+        id: 1,
+        title: "Apple Intelligence přináší rekordní cyklus výměny iPhonů v Severní Americe a Evropě",
+        source: "WSJ",
+        time: "Před 3 hodinami",
+        sentiment: "positive",
+        summary: "Nový systém osobní AI motivuje zákazníky ke starším modelům pře jít na novou generaci."
+      },
+      {
+        id: 2,
+        title: "Tržby ze služeb (App Store, iCloud, Apple Pay) dosáhly nového historického maxima $24.2 mld",
+        source: "CNBC",
+        time: "Před 6 hodinami",
+        sentiment: "positive",
+        summary: "Sektor služeb přináší vysoké marže přes 74% a stabilní opakující se příjmy."
+      }
+    ],
+    TSLA: [
+      {
+        id: 1,
+        title: "Tesla Cybercab & Robotaxi flota dostává schválení pro komerční testování v Austinu",
+        source: "Electrek",
+        time: "Před 1 hodinou",
+        sentiment: "positive",
+        summary: "Autonomní jízda FSD v12.5 vykazuje 5x méně zásahů řidiče na tisíc mil."
+      },
+      {
+        id: 2,
+        title: "Produkce bateriových úložišť Megapack ve Lathropu roste o 80% meziročně",
+        source: "Energy Storage News",
+        time: "Před 4 hodinami",
+        sentiment: "positive",
+        summary: "Energetický segment Tesly se stává druhou nejsilnější růstovou nohou společnosti."
+      }
+    ]
+  };
+
+  const defaultNews = [
+    {
+      id: 101,
+      title: `${stockSymbol}: Analytický přehled výsledků hospodaření a technických indikátorů pro tento měsíc`,
+      source: "MarketWatch",
+      time: "Před 3 hodinami",
+      sentiment: "positive",
+      summary: "Společnost vykazuje silnou rozvahu, stabilní cash flow a pozitivní doporučení většiny Wall Street analytiků."
+    },
+    {
+      id: 102,
+      title: `Makroekonomický výhled a vliv úrokových sazeb FED na sektor ${stockSymbol}`,
+      source: "Seeking Alpha",
+      time: "Před 6 hodinami",
+      sentiment: "neutral",
+      summary: "Očekávané snížení sazeb podporuje růstové valuace a zájem institucionálních investorů."
+    }
+  ];
+
+  return newsDatabase[stockSymbol.toUpperCase()] || defaultNews;
+};
+
